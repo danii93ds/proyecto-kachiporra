@@ -148,6 +148,15 @@ class Player extends FlxSprite
 		
 		if (found)
 			_status.push(statusName);
+			
+		if (statusName == "Fear") _bonusDexterity += -Math.round(_bonusDexterity * 0.25);
+		if (statusName == "Terrified") _bonusDexterity += -Math.round(_bonusDexterity * 0.50);
+		if (statusName == "Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.25);
+		if (statusName == "Very Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.50);
+		if (statusName == "Tired") { _bonusDefense += -Math.round(_bonusDefense * 0.25); /*attackSpeed-*/}
+		if (statusName == "Exhaust") {_bonusDefense += -Math.round(_bonusDefense * 0.50); /*attackSpeed--*/}
+		if (statusName == "Slowed") { found = true; /*attackSpeed-*/ };
+
 	}
 	
 	public function cureStatus(String statusName):Bool {
@@ -158,29 +167,12 @@ class Player extends FlxSprite
 			if (statusName == "Terrified") _bonusDexterity += Math.round(_bonusDexterity * 0.50);
 			if (statusName == "Hungry") _bonusStrenght += Math.round(_bonusStrenght * 0.25);
 			if (statusName == "Very Hungry") _bonusStrenght += Math.round(_bonusStrenght * 0.50);
-			if (statusName == "Tired") { _bonusDefense += Math.round(_bonusDefense * 0.25); //attackSpeed+}
-			if (statusName == "Exhaust") found = true;
-			if (statusName == "Poisoned") found = true;
-			if (statusName == "Stuned") found = true;
-			if (statusName == "Slowed") found = true;
-			if (statusName == "On Fire") found = true;
-			if (statusName == "Terrified") found = true;
-		}
-	}
-
-	public function calculeStatusModifiers(): Void {
-		Bool found;
-		for (string in _status){
-			if (strint == "Fear") _bonusDexterity += -Math.round(_bonusDexterity * 0.25);
-			if (string == "Terrified") _bonusDexterity += -Math.round(_bonusDexterity * 0.50);
-			if (string == "Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.25);
-			if (string == "Very Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.50);
-			if (string == "Tired") { _bonusDefense += -Math.round(_bonusDefense * 0.25); /*attackSpeed-*/}
-			if (string == "Exhaust") { _bonusDefense += -Math.round(_bonusDefense * 0.50); /*attackSpeed--*/}
-			if (string == "Poisoned") found = true;
-			if (string == "Stuned") found = true;
-			if (string == "Slowed") found = true; //attackSpeed-;
-			if (string == "On Fire") found = true;
+			if (statusName == "Tired") { _bonusDefense += Math.round(_bonusDefense * 0.25); /*attackSpeed+*/}
+			if (statusName == "Exhaust") { _bonusDefense += Math.round(_bonusDefense * 0.50); /*attackSpeed++*/ }
+			//if (statusName == "Poisoned") found = true;
+			//if (statusName == "Stuned") found = true;
+			//if (statusName == "Slowed") found = true;
+			//if (statusName == "On Fire") found = true;
 		}
 	}
 	
