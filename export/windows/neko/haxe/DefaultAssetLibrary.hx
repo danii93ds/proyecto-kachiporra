@@ -68,8 +68,6 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/images/titpitoHaxe.png", AssetType.IMAGE);
 		path.set ("assets/music/music-goes-here.txt", "assets/music/music-goes-here.txt");
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
-		path.set ("assets/sounds/sounds-go-here.txt", "assets/sounds/sounds-go-here.txt");
-		type.set ("assets/sounds/sounds-go-here.txt", AssetType.TEXT);
 		path.set ("assets/sounds/beep.ogg", "assets/sounds/beep.ogg");
 		type.set ("assets/sounds/beep.ogg", AssetType.SOUND);
 		path.set ("assets/sounds/flixel.ogg", "assets/sounds/flixel.ogg");
@@ -86,7 +84,6 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
-		useManifest = true;
 		useManifest = true;
 		useManifest = true;
 		useManifest = true;
@@ -732,9 +729,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
-
 #elseif html5
-
 
 
 
