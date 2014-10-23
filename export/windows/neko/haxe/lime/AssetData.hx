@@ -26,12 +26,8 @@ class AssetData {
 			type.set ("assets/data/testLevel.oep", Reflect.field (AssetType, "text".toUpperCase ()));
 			path.set ("assets/data/tilemap.oep", "assets/data/tilemap.oep");
 			type.set ("assets/data/tilemap.oep", Reflect.field (AssetType, "text".toUpperCase ()));
-			path.set ("assets/images/Corpse_Party_Background.png", "assets/images/Corpse_Party_Background.png");
-			type.set ("assets/images/Corpse_Party_Background.png", Reflect.field (AssetType, "image".toUpperCase ()));
-			path.set ("assets/images/images-go-here.txt", "assets/images/images-go-here.txt");
-			type.set ("assets/images/images-go-here.txt", Reflect.field (AssetType, "text".toUpperCase ()));
-			path.set ("assets/images/lawn_tile.png", "assets/images/lawn_tile.png");
-			type.set ("assets/images/lawn_tile.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			path.set ("assets/images/Stairs.png", "assets/images/Stairs.png");
+			type.set ("assets/images/Stairs.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			path.set ("assets/images/tiles.png", "assets/images/tiles.png");
 			type.set ("assets/images/tiles.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			path.set ("assets/images/titpitoHaxe.png", "assets/images/titpitoHaxe.png");

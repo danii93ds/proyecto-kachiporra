@@ -10,6 +10,7 @@ import flixel.util.FlxAngle;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxMath;
 import flixel.util.FlxPoint;
+import map.MapDistribution;
 import openfl.Vector;
 import openfl.display.Graphics;
 import openfl.geom.ColorTransform;
@@ -19,6 +20,8 @@ import flixel.FlxObject;
 import flash.geom.Rectangle;
 import flixel.FlxCamera;
 import flash.display.Sprite;
+import map.BSPgenerator;
+import map.MapDistribution;
 
 
 /**
@@ -26,20 +29,24 @@ import flash.display.Sprite;
  */
 class PlayState extends FlxState
 {
-	//MAP VAIRABLES
+	//MAP VARIABLES
 	private var _map:FlxOgmoLoader;
 	private var _mWalls:FlxTilemap;
 	private var bsp:BSPgenerator;
 	public var allRooms:Vector<Rectangle> = new Vector<Rectangle>();//stores all the rooms
+	public var mapDistr:MapDistribution;
+	//MAP DISTRIBUTION VARIABLES
+	public var entrance:FlxSprite;
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
 	
 	
+	
 	override public function create():Void
 	{
 		
-		//SETEO Y DIBUJADO DEL MAPA
+		//SETEO, DIBUJADO DEL MAPA
 		_map = new FlxOgmoLoader("assets/data/basic.oel");
 		_mWalls = _map.loadTilemap("assets/images/tiles.png", 16, 16, "walls");
 		// esto es para definir qué pasa en caso de colisionar con los tiles
@@ -51,9 +58,14 @@ class PlayState extends FlxState
 		bsp.CreateLeafs();
 		DrawDungeon();
 		
+		//DISTRIBUCION DEL MAPA
+		mapDistr = new MapDistribution(allRooms);
+		entrance = new FlxSprite(mapDistr.entrancePos.x, mapDistr.entrancePos.y);
+		entrance.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
+		add(entrance);
 		
 		//PLAYER
-		_player = new Player(allRooms[0].x * 16 + (allRooms[0].width * 16) / 2, allRooms[0].y * 16 + (allRooms[0].height * 16) / 2);
+		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y);
 		_player.drag.x = _player.drag.y = 3200;
 		_player.setSize(8, 14);
 		_player.offset.set(4, 2);
