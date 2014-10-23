@@ -5,7 +5,7 @@ import Items.Item;
  * ...
  * @author ...
  */
-class Sandwich extends Item 
+class Sandwich extends Food
 {
 
 	public function new() 

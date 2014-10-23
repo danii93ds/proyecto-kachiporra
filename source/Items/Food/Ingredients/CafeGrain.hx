@@ -5,7 +5,7 @@ import Items.Item;
  * ...
  * @author ...
  */
-class CoffeGrain extends Item
+class CoffeGrain extends Food
 {
 
 	public function new() 

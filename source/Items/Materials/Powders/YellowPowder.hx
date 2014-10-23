@@ -1,22 +1,22 @@
-package Items.Food.Ingredients ;
+package Items.Materials.Powder ;
 import Items.Item;
 
 /**
  * ...
  * @author ...
  */
-class Rice extends Food
+class YellowPowder extends Item
 {
 
 	public function new() 
 	{
-		_itemName = "Rice";
+		_itemName = "Yellow Powder";
 		
-		_monsterDropRate = 15;
-		_chestDropRate = 0;
+		_monsterDropRate = 20;
+		_chestDropRate = 25;
 		
 		_sellPrice = 0;
-		_buyPrice = 60;
+		_buyPrice = 15;
 		
 		_HealthValue: 0;
 		_ArmorValue: 0;

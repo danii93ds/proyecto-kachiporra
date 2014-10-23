@@ -5,7 +5,7 @@ import Items.Item;
  * ...
  * @author ...
  */
-class Salad extends Item
+class Salad extends Food
 {
 	
 	public function new(var vegetablesCount:Int) 

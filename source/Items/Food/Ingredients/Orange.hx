@@ -1,11 +1,12 @@
 package Items.Food.Ingredients ;
+import Items.Food.Food;
 import Items.Item;
 
 /**
  * ...
  * @author ...
  */
-class Orange extends Item 
+class Orange extends Food
 {
 
 	public function new() 

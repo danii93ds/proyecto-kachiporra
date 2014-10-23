@@ -17,12 +17,6 @@ abstract class Item
 	private var _sellPrice:Int;
 	private var _buyPrice:Int;
 	
-	//Stats
-	private var _HealthValue: Int;
-	private var _ArmorValue: Int;
-	private var _HungryValue: Int;
-	private var _EnergyValue: Int;
-	
 	private var _itemType:String;
 	
 	public function new() 
@@ -37,7 +31,7 @@ abstract class Item
 	
 	public function itemNameSet(var name:String):String 
 	{
-		this._itemName = name;
+		_itemName = name;
 	}
 	
 	public function dropRateGet() {
@@ -46,7 +40,7 @@ abstract class Item
 	
 	public function dropRateSet(var value:Float):Float 
 	{
-		this._dropRate = value;
+		_dropRate = value;
 	}
 	
 }
