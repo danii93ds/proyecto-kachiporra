@@ -4,7 +4,7 @@ package items ;
  * ...
  * @author ...
  */
-abstract class Item
+class Item
 {
 	//Type
 	private var _itemName:String;
@@ -26,21 +26,21 @@ abstract class Item
 	
 	public function ItemNameGet()
 	{
-		return _ItemName;
+		return _itemName;
 	}
 	
-	public function itemNameSet(var name:String):String 
+	public function itemNameSet(name:String)
 	{
 		_itemName = name;
 	}
-	
+	/*
 	public function dropRateGet() {
 		return _dropRate
 	}
 	
-	public function dropRateSet(var value:Float):Float 
+	public function dropRateSet(value:Float):Float 
 	{
 		_dropRate = value;
 	}
-	
+	*/
 }
