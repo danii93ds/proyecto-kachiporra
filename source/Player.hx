@@ -9,7 +9,13 @@ import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.util.FlxAngle;
 import flixel.FlxG;
+import items.combat.Armor;
+import items.combat.Gun;
+import items.combat.Sword;
 import openfl.Vector;
+import flixel.util.FlxRandom;
+import items.Item;
+import Status;
  
 class Player extends FlxSprite
 {
@@ -29,29 +35,28 @@ class Player extends FlxSprite
 	
 	//Defense +1 select per level
 	private var _Defense:Int;
-	private var _armorDefense:Int;
 	private var _bonusArmor:Int;
 	private var _bonusDefense:Int;
+	private var _Armor:Armor;
 	
 	//Dexterity +1 select per level
 	private var _Dexterity:Int;
 	private var _bonusDexterity:Int;
 	
-	//Damage
-	private var _swordDamageMin:Int;
-	private var _swordDamageMax:Int;
+	//Sword 
+	private var _Sword:Sword;
 	private var _swordDamageMultiplier:Float;
 	
-	private var _gunDamageMin:Int;
-	private var _gunDamageMax:Int;
-		
+	//Gun
+	private var _Gun:Gun;
+	
 	//Survival	
 	private var _Fear:Int;
 	private var _Hungry:Int;
 	private var _Energy:Int;
 	
 	//Status
-	private var _status:List<String>;
+	private var _status:List<Status>;
 	
 	public function new(X:Float=0, Y:Float=0) 
 	{
@@ -80,7 +85,6 @@ class Player extends FlxSprite
 		
 		//Defense
 		_Defense = 5;
-		_armorDefense = 5;
 		_bonusArmor = 0;
 		_bonusDefense = 0;
 		
@@ -88,20 +92,16 @@ class Player extends FlxSprite
 		_Dexterity = 5;
 		_bonusDexterity = 0;
 		
-		//Damage
-		_swordDamageMin = 2;
-		_swordDamageMax = 5;
-		//SwordDamageMultiplier Min = 0.8 Max = 1.2
-	
-		_gunDamageMin = 4;
-		_gunDamageMax = 7;
+		_Sword = new Sword();
+		_Gun = new Gun();
+		_Armor = new Armor();
 		
 		//Survival	
 		_Fear = 100;
 		_Hungry = 100;
 		_Energy = 100;
 	
-		_status = new List<String>();
+		_status = new List<Status>();
 	}
 	//CAMBIAR PARA QUE SE MUEVA DE 16 EN 16 (haciendo + no colisiona)
 	private function movement():Void
@@ -200,7 +200,6 @@ class Player extends FlxSprite
 	}
 	public function calculateFear():Void 
 	{
-		//DANIEL QUE ES ESTO??
 		if (false) //tileVisibility Dark
 			_Fear -= 2;
 		else if (false) // tileVisibility Light
@@ -225,42 +224,72 @@ class Player extends FlxSprite
 	{
 		_Energy = 100;
 	}
-	public function setStatus(statusName:String):Void 
-	{
+	public function setStatus(statusName:String):Void {
 		var found:Bool = false;
-		for (string in _status)
-			if (string == statusName) found = true;
+		for (status in _status)
+			if (status.getName() == statusName) found = true;
 		
-		if (found)
-			_status.push(statusName);
+		if (!found) {
+			var newStatus:Status = new Status(statusName, -1);
 			
-		if (statusName == "Fear") _bonusDexterity += -Math.round(_bonusDexterity * 0.25);
-		if (statusName == "Terrified") _bonusDexterity += -Math.round(_bonusDexterity * 0.50);
-		if (statusName == "Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.25);
-		if (statusName == "Very Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.50);
-		if (statusName == "Tired") { _bonusDefense += -Math.round(_bonusDefense * 0.25); /*attackSpeed-*/}
-		if (statusName == "Exhaust") {_bonusDefense += -Math.round(_bonusDefense * 0.50); /*attackSpeed--*/}
-		if (statusName == "Slowed") { found = true; /*attackSpeed-*/ };
+			if (statusName == "Fear") _bonusDexterity += -Math.round(_bonusDexterity * 0.25);
+			if (statusName == "Terrified") _bonusDexterity += -Math.round(_bonusDexterity * 0.50);
+			if (statusName == "Hungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.25);
+			if (statusName == "VeryHungry") _bonusStrenght += -Math.round(_bonusStrenght * 0.50);
+			if (statusName == "Tired") { _bonusDefense += -Math.round(_bonusDefense * 0.25); /*attackSpeed-*/}
+			if (statusName == "Exhaust") {_bonusDefense += -Math.round(_bonusDefense * 0.50); /*attackSpeed--*/}
+			if (statusName == "Slowed") { found = true; /*attackSpeed-*/ };
+			if (statusName == "Stuned") newStatus.setTurns(2);
+			if (statusName == "Poisoned") newStatus.setTurns(5);
+			if (statusName == "OnFire") newStatus.setTurns(3);
+			
+			_status.push(newStatus);
+		}
 
 	}
-	public function cureStatus(statusName:String):Bool
-	{
+	
+	public function cureStatus(statusName:String):Void {
 		var removed:Bool = false;
-		removed = _status.remove(statusName);
-		if (removed) 
-		{
+		var statusFound:Status = new Status("",0);
+		for (status in _status){
+			if (status.getName() == statusName) {
+				removed = true;
+				statusFound = status;
+			}
+		}
+			
+		if (removed) {
+		
 			if (statusName == "Fear") _bonusDexterity += Math.round(_bonusDexterity * 0.25);
 			if (statusName == "Terrified") _bonusDexterity += Math.round(_bonusDexterity * 0.50);
 			if (statusName == "Hungry") _bonusStrenght += Math.round(_bonusStrenght * 0.25);
 			if (statusName == "Very Hungry") _bonusStrenght += Math.round(_bonusStrenght * 0.50);
 			if (statusName == "Tired") { _bonusDefense += Math.round(_bonusDefense * 0.25); /*attackSpeed+*/}
 			if (statusName == "Exhaust") { _bonusDefense += Math.round(_bonusDefense * 0.50); /*attackSpeed++*/ }
-			//if (statusName == "Poisoned") found = true;
+			//if (statusName == "Slowed") { }
 			//if (statusName == "Stuned") found = true;
-			//if (statusName == "Slowed") found = true;
-			//if (statusName == "On Fire") found = true;
+			//if (statusName == "Poisoned") found = true;
+			//if (statusName == "OnFire") found = true;
+			_status.remove(statusFound);
+			
 		}
-		return removed;
+	}
+	
+	public function calculateStatusXTurn() {
+		for (status in _status){
+			if (status.getName() == "Poisoned") _currentHealth -= Math.round(_healthBase * 0.02); // 10% x 5 turns
+			if (status.getName() == "On Fire") _currentHealth -= Math.round(_healthBase * 0.05); //  15% x 3 turns
+			status.setTurns(status.getTurns() - 1);
+			if (status.getTurns() <= 0) cureStatus(status.getName());
+		}
+	}
+	
+	public function attackMelee():Int {
+		return FlxRandom.intRanged(cast _Sword.MinDamage() + (_Strength * 0.8),cast _Sword.MaxDamage() + (_Strength * 1.2));
+	}
+	
+	public function attackRange():Int {
+		return FlxRandom.intRanged(cast _Gun.MinDamage(),cast _Gun.MaxDamage());
 	}
 	
 	override public function update():Void 
