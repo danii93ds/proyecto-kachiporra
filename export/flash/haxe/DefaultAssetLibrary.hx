@@ -46,10 +46,26 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
+		className.set ("assets/data/basic.oel", __ASSET__assets_data_basic_oel);
+		type.set ("assets/data/basic.oel", AssetType.TEXT);
 		className.set ("assets/data/data-goes-here.txt", __ASSET__assets_data_data_goes_here_txt);
 		type.set ("assets/data/data-goes-here.txt", AssetType.TEXT);
+		className.set ("assets/data/room-001.oel", __ASSET__assets_data_room_001_oel);
+		type.set ("assets/data/room-001.oel", AssetType.TEXT);
+		className.set ("assets/data/testLevel.oep", __ASSET__assets_data_testlevel_oep);
+		type.set ("assets/data/testLevel.oep", AssetType.TEXT);
+		className.set ("assets/data/tilemap.oep", __ASSET__assets_data_tilemap_oep);
+		type.set ("assets/data/tilemap.oep", AssetType.TEXT);
+		className.set ("assets/images/Corpse_Party_Background.png", __ASSET__assets_images_corpse_party_background_png);
+		type.set ("assets/images/Corpse_Party_Background.png", AssetType.IMAGE);
 		className.set ("assets/images/images-go-here.txt", __ASSET__assets_images_images_go_here_txt);
 		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
+		className.set ("assets/images/lawn_tile.png", __ASSET__assets_images_lawn_tile_png);
+		type.set ("assets/images/lawn_tile.png", AssetType.IMAGE);
+		className.set ("assets/images/tiles.png", __ASSET__assets_images_tiles_png);
+		type.set ("assets/images/tiles.png", AssetType.IMAGE);
+		className.set ("assets/images/titpitoHaxe.png", __ASSET__assets_images_titpitohaxe_png);
+		type.set ("assets/images/titpitoHaxe.png", AssetType.IMAGE);
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
 		className.set ("assets/sounds/sounds-go-here.txt", __ASSET__assets_sounds_sounds_go_here_txt);
@@ -63,12 +79,36 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#elseif html5
 		
 		var id;
+		id = "assets/data/basic.oel";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
 		id = "assets/data/data-goes-here.txt";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
+		id = "assets/data/room-001.oel";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
+		id = "assets/data/testLevel.oep";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
+		id = "assets/data/tilemap.oep";
+		path.set (id, id);
+		type.set (id, AssetType.TEXT);
+		id = "assets/images/Corpse_Party_Background.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
 		id = "assets/images/images-go-here.txt";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
+		id = "assets/images/lawn_tile.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/tiles.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/titpitoHaxe.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
 		id = "assets/music/music-goes-here.txt";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
@@ -89,11 +129,35 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		var useManifest = false;
 		
+		className.set ("assets/data/basic.oel", __ASSET__assets_data_basic_oel);
+		type.set ("assets/data/basic.oel", AssetType.TEXT);
+		
 		className.set ("assets/data/data-goes-here.txt", __ASSET__assets_data_data_goes_here_txt);
 		type.set ("assets/data/data-goes-here.txt", AssetType.TEXT);
 		
+		className.set ("assets/data/room-001.oel", __ASSET__assets_data_room_001_oel);
+		type.set ("assets/data/room-001.oel", AssetType.TEXT);
+		
+		className.set ("assets/data/testLevel.oep", __ASSET__assets_data_testlevel_oep);
+		type.set ("assets/data/testLevel.oep", AssetType.TEXT);
+		
+		className.set ("assets/data/tilemap.oep", __ASSET__assets_data_tilemap_oep);
+		type.set ("assets/data/tilemap.oep", AssetType.TEXT);
+		
+		className.set ("assets/images/Corpse_Party_Background.png", __ASSET__assets_images_corpse_party_background_png);
+		type.set ("assets/images/Corpse_Party_Background.png", AssetType.IMAGE);
+		
 		className.set ("assets/images/images-go-here.txt", __ASSET__assets_images_images_go_here_txt);
 		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
+		
+		className.set ("assets/images/lawn_tile.png", __ASSET__assets_images_lawn_tile_png);
+		type.set ("assets/images/lawn_tile.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/tiles.png", __ASSET__assets_images_tiles_png);
+		type.set ("assets/images/tiles.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/titpitoHaxe.png", __ASSET__assets_images_titpitohaxe_png);
+		type.set ("assets/images/titpitoHaxe.png", AssetType.IMAGE);
 		
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
@@ -723,8 +787,16 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if pixi
 #elseif flash
 
+@:keep class __ASSET__assets_data_basic_oel extends openfl.utils.ByteArray { }
 @:keep class __ASSET__assets_data_data_goes_here_txt extends openfl.utils.ByteArray { }
+@:keep class __ASSET__assets_data_room_001_oel extends openfl.utils.ByteArray { }
+@:keep class __ASSET__assets_data_testlevel_oep extends openfl.utils.ByteArray { }
+@:keep class __ASSET__assets_data_tilemap_oep extends openfl.utils.ByteArray { }
+@:keep class __ASSET__assets_images_corpse_party_background_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_images_images_go_here_txt extends openfl.utils.ByteArray { }
+@:keep class __ASSET__assets_images_lawn_tile_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep class __ASSET__assets_images_tiles_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep class __ASSET__assets_images_titpitohaxe_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_music_music_goes_here_txt extends openfl.utils.ByteArray { }
 @:keep class __ASSET__assets_sounds_sounds_go_here_txt extends openfl.utils.ByteArray { }
 @:keep class __ASSET__assets_sounds_beep_mp3 extends openfl.media.Sound { }
@@ -741,11 +813,27 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
+
+
+
+
+
 #elseif (windows || mac || linux)
 
 
+@:file("assets/data/basic.oel") class __ASSET__assets_data_basic_oel extends flash.utils.ByteArray {}
 @:file("assets/data/data-goes-here.txt") class __ASSET__assets_data_data_goes_here_txt extends flash.utils.ByteArray {}
+@:file("assets/data/room-001.oel") class __ASSET__assets_data_room_001_oel extends flash.utils.ByteArray {}
+@:file("assets/data/testLevel.oep") class __ASSET__assets_data_testlevel_oep extends flash.utils.ByteArray {}
+@:file("assets/data/tilemap.oep") class __ASSET__assets_data_tilemap_oep extends flash.utils.ByteArray {}
+@:bitmap("assets/images/Corpse_Party_Background.png") class __ASSET__assets_images_corpse_party_background_png extends flash.display.BitmapData {}
 @:file("assets/images/images-go-here.txt") class __ASSET__assets_images_images_go_here_txt extends flash.utils.ByteArray {}
+@:bitmap("assets/images/lawn_tile.png") class __ASSET__assets_images_lawn_tile_png extends flash.display.BitmapData {}
+@:bitmap("assets/images/tiles.png") class __ASSET__assets_images_tiles_png extends flash.display.BitmapData {}
+@:bitmap("assets/images/titpitoHaxe.png") class __ASSET__assets_images_titpitohaxe_png extends flash.display.BitmapData {}
 @:file("assets/music/music-goes-here.txt") class __ASSET__assets_music_music_goes_here_txt extends flash.utils.ByteArray {}
 @:file("assets/sounds/sounds-go-here.txt") class __ASSET__assets_sounds_sounds_go_here_txt extends flash.utils.ByteArray {}
 @:sound("C:/HaxeToolkit/haxe/lib/flixel/3,3,5/assets/sounds/beep.mp3") class __ASSET__assets_sounds_beep_mp3 extends flash.media.Sound {}

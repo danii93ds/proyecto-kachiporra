@@ -1,17 +1,20 @@
 package ;
-import flash.utils.CompressionAlgorithm;
-import flixel.FlxSprite;
-import haxe.ds.Vector;
 
 /**
  * ...
- * @author ...
+ * @author nachotorres
  */
+import flixel.FlxSprite;
+import flixel.util.FlxColor;
+import flixel.FlxObject;
+import flixel.util.FlxAngle;
+import flixel.FlxG;
+import openfl.Vector;
+ 
 class Player extends FlxSprite
 {
 	
-	private var _x:Int;
-	private var _y:Int;
+	public var speed:Float = 100;
 	
 	//Health  5 per level
 	private var _healthBase:Int;
@@ -49,9 +52,21 @@ class Player extends FlxSprite
 	
 	//Status
 	private var _status:List<String>;
-
-	public function new() 
+	
+	public function new(X:Float=0, Y:Float=0) 
 	{
+		//posiciones que le manda para que aparezca el personaje
+		super(X, Y );
+		loadGraphic(AssetPaths.titpitoHaxe__png, true, 16, 16);
+		
+		setFacingFlip(FlxObject.LEFT, false, false);
+		setFacingFlip(FlxObject.RIGHT, true, false);
+		
+		animation.add("lr", [3, 4, 3, 5], 6, false);
+		animation.add("u", [6, 7, 6, 8], 6, false);
+		animation.add("d", [0, 1, 0, 2], 6, false);
+		
+		
 		//Health
 		_healthBase = 100;
 		_currentHealth = 100;
@@ -87,35 +102,86 @@ class Player extends FlxSprite
 		_Energy = 100;
 	
 		_status = new List<String>();
-
 	}
-	
-	private function AddMaxLife(int health) {
+	//CAMBIAR PARA QUE SE MUEVA DE 16 EN 16 (haciendo + no colisiona)
+	private function movement():Void
+	{	
+		var _up:Bool = false;
+		var _down:Bool = false;
+		var _left:Bool = false;
+		var _right:Bool = false;
+		
+		_up = FlxG.keys.anyPressed(["UP", "W"]);
+		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
+		_left = FlxG.keys.anyPressed(["LEFT", "A"]);
+		_right = FlxG.keys.anyPressed(["RIGHT", "D"]);
+		
+		if (_up && _down)
+			_up = _down = false;
+		if (_left && _right)
+			_left = _right = false;
+		
+		if ( _up || _down || _left || _right)
+		{
+			var mA:Float = 0;
+			if (_up)
+			{
+				mA = -90;
+				if (_left)
+					mA -= 45;
+				else if (_right)
+					mA += 45;
+					
+				facing = FlxObject.UP;
+			}
+			else if (_down)
+			{
+				mA = 90;
+				if (_left)
+					mA += 45;
+				else if (_right)
+					mA -= 45;
+				
+				facing = FlxObject.DOWN;
+			}
+			else if (_left)
+			{
+				mA = 180;
+				facing = FlxObject.LEFT;
+			}
+			else if (_right)
+			{
+				mA = 0;
+				facing = FlxObject.RIGHT;
+			}
+			FlxAngle.rotatePoint(speed, 0, 0, 0, mA, velocity);
+		}
+	}
+	private function AddMaxLife(health:Int) 
+	{
 		_healthBase += health;
 	}
-	
-	private function AddStat(String stat):Void { 
+	private function AddStat(stat:String):Void 
+	{ 
 		
 		switch stat 
 		{
-			case "Strenght":
+			case "Strength":
 				_Strength++;
-				break;
 			case "Defense":
 				_Defense++;
-				break;
 			case "Dexterity":
 				_Dexterity++;
-				break;
 		}
 	}
-	
-	public function LevelUp(String stat) {
+	public function LevelUp(stat:String)
+	{
 		AddStat(stat);
 		AddMaxLife(_HealthXLevel);
 	}
-		
-	public function calculateFear():Void {
+	public function calculateFear():Void 
+	{
+		//DANIEL QUE ES ESTO??
 		if (false) //tileVisibility Dark
 			_Fear -= 2;
 		else if (false) // tileVisibility Light
@@ -123,28 +189,28 @@ class Player extends FlxSprite
 			
 		//tileVisibility MidLight
 	}
-		
-	public function setHungry():Void {
+	public function setHungry():Void 
+	{
 		_Hungry -= 3;
 	}
-	
-	public function eat(Int foodValue) {
+	public function eat(foodValue:Int)
+	{
 		_Hungry += foodValue;
-		if (_Hungry > 100) _Hungry = 100;
+		if (_Hungry >= 100) _Hungry = 100;
 	}
-		
-	public function tireEnergy():Void {
+	public function tireEnergy():Void 
+	{
 		_Energy--;
 	}
-	
-	public function sleep():Void {
+	public function sleep():Void 
+	{
 		_Energy = 100;
 	}
-	
-	public function setStatus(String statusName):Void {
-		Bool found = false;
+	public function setStatus(statusName:String):Void 
+	{
+		var found:Bool = false;
 		for (string in _status)
-			if (strintg == statusName) found = true;
+			if (string == statusName) found = true;
 		
 		if (found)
 			_status.push(statusName);
@@ -158,11 +224,12 @@ class Player extends FlxSprite
 		if (statusName == "Slowed") { found = true; /*attackSpeed-*/ };
 
 	}
-	
-	public function cureStatus(String statusName):Bool {
-		Bool removed = false;
+	public function cureStatus(statusName:String):Bool
+	{
+		var removed:Bool = false;
 		removed = _status.remove(statusName);
-		if (removed) {
+		if (removed) 
+		{
 			if (statusName == "Fear") _bonusDexterity += Math.round(_bonusDexterity * 0.25);
 			if (statusName == "Terrified") _bonusDexterity += Math.round(_bonusDexterity * 0.50);
 			if (statusName == "Hungry") _bonusStrenght += Math.round(_bonusStrenght * 0.25);
@@ -174,6 +241,12 @@ class Player extends FlxSprite
 			//if (statusName == "Slowed") found = true;
 			//if (statusName == "On Fire") found = true;
 		}
+		return removed;
 	}
 	
+	override public function update():Void 
+	{
+		movement();
+		super.update();
+	}
 }

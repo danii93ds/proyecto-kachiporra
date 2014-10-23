@@ -1,10 +1,12 @@
 -main ApplicationMain 
 -cp C:\HaxeToolkit\haxe\lib\flixel/3,3,5/
--D flixel=3.3.5
 -cp C:\HaxeToolkit\haxe\lib\lime/1,0,1/
--D lime=1.0.1
 -cp C:\HaxeToolkit\haxe\lib\openfl/2,0,1/
+-cp C:\HaxeToolkit\haxe\lib\flixel-addons/1,1,0/
+-D flixel-addons=1.1.0
 -D openfl=2.0.1
+-D flixel=3.3.5
+-D lime=1.0.1
 -cp source
 -cp C:\HaxeToolkit\haxe\lib\openfl/2,0,1/backends/flash
 -cp C:\HaxeToolkit\haxe\lib\openfl/2,0,1/backends/flash
@@ -14,7 +16,7 @@
 -D fdb
 -D web
 -swf-version 11.8
--swf export/flash/bin/Jueguito.swf
+-swf export/flash/bin/¨Jueguito¨.swf
 -swf-header 640:480:60:000000
 -cp export/flash/haxe
 -D final

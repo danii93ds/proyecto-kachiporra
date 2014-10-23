@@ -24,7 +24,7 @@ class ApplicationMain {
 		
 		
 		
-		//nme.Lib.setPackage("HaxeFlixel", "Jueguito", "com.example.myapp", "0.0.1");
+		//nme.Lib.setPackage("HaxeFlixel", "¨Jueguito¨", "com.example.myapp", "0.0.1");
 		
 		loaderInfo = openfl.Lib.current.loaderInfo;
 		

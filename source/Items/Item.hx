@@ -30,11 +30,13 @@ abstract class Item
 		
 	}
 	
-	public function ItemNameGet(){
+	public function ItemNameGet()
+	{
 		return _ItemName;
 	}
 	
-	public function itemNameSet(var name:String):String {
+	public function itemNameSet(var name:String):String 
+	{
 		this._itemName = name;
 	}
 	
@@ -42,7 +44,8 @@ abstract class Item
 		return _dropRate
 	}
 	
-	public function dropRateSet(var value:Float):Float {
+	public function dropRateSet(var value:Float):Float 
+	{
 		this._dropRate = value;
 	}
 	
