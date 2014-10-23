@@ -1,4 +1,4 @@
-package;
+package ;
 
 import flash.display.BitmapData;
 import flixel.FlxG;
@@ -13,12 +13,14 @@ import flixel.util.FlxPoint;
 import openfl.Vector;
 import openfl.display.Graphics;
 import openfl.geom.ColorTransform;
-import flash.display.Sprite;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.tile.FlxTilemap;
 import flixel.FlxObject;
 import flash.geom.Rectangle;
 import flixel.FlxCamera;
+import flash.display.Sprite;
+
+
 /**
  * A FlxState which can be used for the actual gameplay.
  */
@@ -28,6 +30,7 @@ class PlayState extends FlxState
 	private var _map:FlxOgmoLoader;
 	private var _mWalls:FlxTilemap;
 	private var bsp:BSPgenerator;
+	public var allRooms:Vector<Rectangle> = new Vector<Rectangle>();//stores all the rooms
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
@@ -50,7 +53,7 @@ class PlayState extends FlxState
 		
 		
 		//PLAYER
-		_player = new Player(96, 96);
+		_player = new Player(allRooms[0].x * 16 + (allRooms[0].width * 16) / 2, allRooms[0].y * 16 + (allRooms[0].height * 16) / 2);
 		_player.drag.x = _player.drag.y = 3200;
 		_player.setSize(8, 14);
 		_player.offset.set(4, 2);
@@ -58,6 +61,7 @@ class PlayState extends FlxState
 		
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
+		
 		super.create();
 	}
 	
@@ -84,7 +88,8 @@ class PlayState extends FlxState
 				var startY = Std.int(leaf.room.y);
 				var destX = Std.int(leaf.room.width) + startX;
 				var destY = Std.int(leaf.room.height) + startY;
-				
+				allRooms.push(leaf.room);//stores all rooms
+
 				for (i in startX...destX)
 				{
 					for (j in startY...destY)

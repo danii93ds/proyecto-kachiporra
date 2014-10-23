@@ -1,4 +1,4 @@
-package ;
+package  ;
 import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -109,7 +109,7 @@ class Leaf
 			// place the room within the Leaf, but don't put it right 
 			// against the side of the Leaf (that would merge rooms together)
 			roomPos = new Point(FlxRandom.intRanged(1,width - cast roomSize.x -1), FlxRandom.intRanged(1, height - cast roomSize.y - 1));
-			room = new Rectangle(x + roomPos.x ,y + roomPos.y , roomSize.x, roomSize.y);
+			room = new Rectangle(x + roomPos.x , y + roomPos.y , roomSize.x, roomSize.y);
 		}
 	}
 	

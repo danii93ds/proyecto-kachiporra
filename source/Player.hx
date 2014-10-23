@@ -157,6 +157,25 @@ class Player extends FlxSprite
 			FlxAngle.rotatePoint(speed, 0, 0, 0, mA, velocity);
 		}
 	}
+	override public function draw():Void 
+	{
+		if (velocity.x != 0 || velocity.y != 0)
+		{
+			switch(facing)
+			{
+				case FlxObject.LEFT, FlxObject.RIGHT:
+					animation.play("lr");
+					
+				case FlxObject.UP:
+					animation.play("u");
+					
+				case FlxObject.DOWN:
+					animation.play("d");
+			}
+		}
+			
+		super.draw();
+	}
 	private function AddMaxLife(health:Int) 
 	{
 		_healthBase += health;
