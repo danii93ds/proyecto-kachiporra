@@ -157,6 +157,7 @@ class Player extends FlxSprite
 			FlxAngle.rotatePoint(speed, 0, 0, 0, mA, velocity);
 		}
 	}
+	
 	override public function draw():Void 
 	{
 		if (velocity.x != 0 || velocity.y != 0)
@@ -176,10 +177,12 @@ class Player extends FlxSprite
 			
 		super.draw();
 	}
+	
 	private function AddMaxLife(health:Int) 
 	{
 		_healthBase += health;
 	}
+	
 	private function AddStat(stat:String):Void 
 	{ 
 		
@@ -193,11 +196,13 @@ class Player extends FlxSprite
 				_Dexterity++;
 		}
 	}
+	
 	public function LevelUp(stat:String)
 	{
 		AddStat(stat);
 		AddMaxLife(_HealthXLevel);
 	}
+	
 	public function calculateFear():Void 
 	{
 		if (false) //tileVisibility Dark
@@ -207,23 +212,28 @@ class Player extends FlxSprite
 			
 		//tileVisibility MidLight
 	}
+	
 	public function setHungry():Void 
 	{
 		_Hungry -= 3;
 	}
+	
 	public function eat(foodValue:Int)
 	{
 		_Hungry += foodValue;
 		if (_Hungry >= 100) _Hungry = 100;
 	}
+	
 	public function tireEnergy():Void 
 	{
 		_Energy--;
 	}
+	
 	public function sleep():Void 
 	{
 		_Energy = 100;
 	}
+	
 	public function setStatus(statusName:String):Void {
 		var found:Bool = false;
 		for (status in _status)

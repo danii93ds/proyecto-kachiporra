@@ -40,6 +40,8 @@ class PlayState extends FlxState
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
+	//ENEMY VARIABLES
+	private var _dijkstra:DijkstraBehaviour;
 	
 	
 	
@@ -70,6 +72,9 @@ class PlayState extends FlxState
 		_player.setSize(8, 14);
 		_player.offset.set(4, 2);
 		add(_player);
+		
+		//ENEMY
+		_dijkstra = new DijkstraBehaviour(allRooms[0], _mWalls);
 		
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
