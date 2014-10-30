@@ -30,7 +30,7 @@ class MapDistribution
 		
 			//set player position
 		playerStartPos = new Point(0, 0);
-		playerStartPos.x = entrancePos.x - (tileSize/2);
+		playerStartPos.x = entrancePos.x;
 		playerStartPos.y = entrancePos.y;
 		
 		exitPos = new Point(0,0);

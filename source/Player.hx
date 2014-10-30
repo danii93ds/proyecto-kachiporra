@@ -5,6 +5,7 @@ package ;
  * @author nachotorres
  */
 import flixel.FlxSprite;
+import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.util.FlxAngle;
@@ -12,15 +13,38 @@ import flixel.FlxG;
 import items.combat.Armor;
 import items.combat.Gun;
 import items.combat.Sword;
+import openfl.geom.Point;
 import openfl.Vector;
 import flixel.util.FlxRandom;
+import flixel.tile.FlxTilemap;
 import items.Item;
 import Status;
+
+
+enum MoveDirection
+{
+	UP;
+	DOWN;
+	LEFT;
+	RIGHT;
+}
  
 class Player extends FlxSprite
 {
+	//movement variables
+	private var MOVEMENT_SPEED:Int = 2;
+	private var moveMap:FlxTilemap;
+	private var TILE_SIZE:Int = 16;
+	public var moveToNextTile:Bool;
+	private var moveDirection:MoveDirection;
+	#if mobile
+	private var _virtualPad:FlxVirtualPad;
+	#end
+	public var moveUp:Bool;
+	public var moveDown:Bool;
+	public var moveLeft:Bool;
+	public var moveRight:Bool;
 	
-	public var speed:Float = 100;
 	
 	//Health  5 per level
 	private var _healthBase:Int;
@@ -58,7 +82,7 @@ class Player extends FlxSprite
 	//Status
 	private var _status:List<Status>;
 	
-	public function new(X:Float=0, Y:Float=0) 
+	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X, Y );
@@ -71,6 +95,13 @@ class Player extends FlxSprite
 		animation.add("u", [6, 7, 6, 8], 6, false);
 		animation.add("d", [0, 1, 0, 2], 6, false);
 		
+		#if mobile
+		_virtualPad = new FlxVirtualPad(FULL, NONE);
+		_virtualPad.alpha = 0.5;
+		FlxG.state.add(_virtualPad);
+		#end
+		moveMap = new FlxTilemap();
+		moveMap = _mWalls;
 		
 		//Health
 		_healthBase = 100;
@@ -105,58 +136,98 @@ class Player extends FlxSprite
 	}
 	//CAMBIAR PARA QUE SE MUEVA DE 16 EN 16 (haciendo + no colisiona)
 	private function movement():Void
-	{	
-		var _up:Bool = false;
-		var _down:Bool = false;
-		var _left:Bool = false;
-		var _right:Bool = false;
-		
-		_up = FlxG.keys.anyPressed(["UP", "W"]);
-		_down = FlxG.keys.anyPressed(["DOWN", "S"]);
-		_left = FlxG.keys.anyPressed(["LEFT", "A"]);
-		_right = FlxG.keys.anyPressed(["RIGHT", "D"]);
-		
-		if (_up && _down)
-			_up = _down = false;
-		if (_left && _right)
-			_left = _right = false;
-		
-		if ( _up || _down || _left || _right)
+	{
+			// Move the player to the next block
+		if (moveToNextTile)
 		{
-			var mA:Float = 0;
-			if (_up)
+			switch (moveDirection)
 			{
-				mA = -90;
-				if (_left)
-					mA -= 45;
-				else if (_right)
-					mA += 45;
-					
-				facing = FlxObject.UP;
+				case UP:
+					if(moveUp == true)
+						y -= MOVEMENT_SPEED;
+				case DOWN:
+					if(moveDown == true)
+						y += MOVEMENT_SPEED;
+				case LEFT:
+					if(moveLeft == true)
+						x -= MOVEMENT_SPEED;
+				case RIGHT:
+					if(moveRight == true)
+						x += MOVEMENT_SPEED;
 			}
-			else if (_down)
-			{
-				mA = 90;
-				if (_left)
-					mA += 45;
-				else if (_right)
-					mA -= 45;
-				
-				facing = FlxObject.DOWN;
-			}
-			else if (_left)
-			{
-				mA = 180;
-				facing = FlxObject.LEFT;
-			}
-			else if (_right)
-			{
-				mA = 0;
-				facing = FlxObject.RIGHT;
-			}
-			FlxAngle.rotatePoint(speed, 0, 0, 0, mA, velocity);
+		}
+		
+		// Check if the player has now reached the next block
+		if ((x % TILE_SIZE == 0) && (y % TILE_SIZE == 0))
+		{
+			moveToNextTile = false;
+			//collision on each direction
+			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
+				moveUp = false;
+			else
+				moveUp = true;
+			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) == 2)
+				moveDown = false;
+			else
+				moveDown = true;
+			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) == 2)
+				moveLeft = false;
+			else
+				moveLeft = true;
+			if (moveMap.getTile(Math.round(x / TILE_SIZE) + 1, Math.round(y / TILE_SIZE)) == 2)
+				moveRight = false;
+			else
+				moveRight = true;
+		}
+		
+		#if mobile
+		if (_virtualPad.buttonDown.status == FlxButton.PRESSED)
+		{
+			moveTo(MoveDirection.DOWN);
+		}
+		else if (_virtualPad.buttonUp.status == FlxButton.PRESSED)
+		{
+			moveTo(MoveDirection.UP);
+		}
+		else if (_virtualPad.buttonLeft.status == FlxButton.PRESSED)
+		{
+			moveTo(MoveDirection.LEFT);
+		}
+		else if (_virtualPad.buttonRight.status == FlxButton.PRESSED)
+		{
+			moveTo(MoveDirection.RIGHT);
+		}
+		#else
+		// Check for WASD or arrow key presses and move accordingly
+		if (FlxG.keys.anyPressed(["DOWN", "S"]))
+		{
+			moveTo(MoveDirection.DOWN);
+		}
+		else if (FlxG.keys.anyPressed(["UP", "W"]))
+		{
+			moveTo(MoveDirection.UP);
+		}
+		else if (FlxG.keys.anyPressed(["LEFT", "A"]))
+		{
+			moveTo(MoveDirection.LEFT);
+		}
+		else if (FlxG.keys.anyPressed(["RIGHT", "D"]))
+		{
+			moveTo(MoveDirection.RIGHT);
+		}
+		#end
+	}
+	
+	public function moveTo(Direction:MoveDirection):Void
+	{
+		// Only change direction if not already moving
+		if (!moveToNextTile)
+		{
+			moveDirection = Direction;
+			moveToNextTile = true;
 		}
 	}
+	
 	
 	override public function draw():Void 
 	{
@@ -304,7 +375,8 @@ class Player extends FlxSprite
 	
 	override public function update():Void 
 	{
-		movement();
 		super.update();
+		movement();
+		
 	}
 }

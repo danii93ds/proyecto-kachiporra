@@ -40,8 +40,7 @@ class PlayState extends FlxState
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
-	//ENEMY VARIABLES
-	private var _dijkstra:DijkstraBehaviour;
+
 	
 	
 	
@@ -67,14 +66,12 @@ class PlayState extends FlxState
 		add(entrance);
 		
 		//PLAYER
-		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y);
+		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls);
 		_player.drag.x = _player.drag.y = 3200;
-		_player.setSize(8, 14);
-		_player.offset.set(4, 2);
+		//_player.setSize(8, 14);
+		_player.offset.set(0, 0);
 		add(_player);
 		
-		//ENEMY
-		_dijkstra = new DijkstraBehaviour(allRooms[0], _mWalls);
 		
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
@@ -91,7 +88,7 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
-		FlxG.collide(_player, _mWalls);
+
 	}
 	
 	public function DrawDungeon():Void
