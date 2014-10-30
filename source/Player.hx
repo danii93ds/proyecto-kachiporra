@@ -10,6 +10,8 @@ import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.util.FlxAngle;
 import flixel.FlxG;
+import items.food.cooked.Sandwich;
+import items.combat.bullets.Bullet;
 import items.combat.Armor;
 import items.combat.Gun;
 import items.combat.Sword;
@@ -82,6 +84,11 @@ class Player extends FlxSprite
 	//Status
 	private var _status:List<Status>;
 	
+	//Inventory
+	private var _Inventory:Inventory;
+	private var _Kachis:UInt;
+	
+	
 	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
 	{
 		//posiciones que le manda para que aparezca el personaje
@@ -133,6 +140,15 @@ class Player extends FlxSprite
 		_Energy = 100;
 	
 		_status = new List<Status>();
+		
+		//Inventory
+		_Inventory = new Inventory();
+		_Inventory._matrix[0][0].setItem(new Sandwich());
+		_Inventory._matrix[0][0].setCount(1);
+		_Inventory._matrix[0][1].setItem(new Bullet());
+		_Inventory._matrix[0][1].setCount(10);
+		
+		_Kachis = 100;
 	}
 	//CAMBIAR PARA QUE SE MUEVA DE 16 EN 16 (haciendo + no colisiona)
 	private function movement():Void
