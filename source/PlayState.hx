@@ -1,5 +1,6 @@
 package ;
 
+import enemy.Dijkstra;
 import flash.display.BitmapData;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -40,6 +41,8 @@ class PlayState extends FlxState
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
+	//ENEMY VARIABLES
+	public var _dijkstra:Dijkstra;
 
 	
 	
@@ -72,7 +75,8 @@ class PlayState extends FlxState
 		_player.offset.set(0, 0);
 		add(_player);
 		
-		
+		//ENEMY
+		_dijkstra = new Dijkstra(allRooms[0], _mWalls);
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
 		

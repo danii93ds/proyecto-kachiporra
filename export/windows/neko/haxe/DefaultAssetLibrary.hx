@@ -56,6 +56,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/data/testLevel.oep", AssetType.TEXT);
 		path.set ("assets/data/tilemap.oep", "assets/data/tilemap.oep");
 		type.set ("assets/data/tilemap.oep", AssetType.TEXT);
+		path.set ("assets/images/door16x16.png", "assets/images/door16x16.png");
+		type.set ("assets/images/door16x16.png", AssetType.IMAGE);
+		path.set ("assets/images/EnemyAxe.png", "assets/images/EnemyAxe.png");
+		type.set ("assets/images/EnemyAxe.png", AssetType.IMAGE);
+		path.set ("assets/images/EnemySpear.png", "assets/images/EnemySpear.png");
+		type.set ("assets/images/EnemySpear.png", AssetType.IMAGE);
 		path.set ("assets/images/Stairs.png", "assets/images/Stairs.png");
 		type.set ("assets/images/Stairs.png", AssetType.IMAGE);
 		path.set ("assets/images/tiles.png", "assets/images/tiles.png");
@@ -80,6 +86,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
 		useManifest = true;
 		useManifest = true;
 		useManifest = true;
@@ -721,7 +730,13 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
 #elseif html5
+
+
+
 
 
 

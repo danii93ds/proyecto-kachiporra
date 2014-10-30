@@ -26,6 +26,12 @@ class AssetData {
 			type.set ("assets/data/testLevel.oep", Reflect.field (AssetType, "text".toUpperCase ()));
 			path.set ("assets/data/tilemap.oep", "assets/data/tilemap.oep");
 			type.set ("assets/data/tilemap.oep", Reflect.field (AssetType, "text".toUpperCase ()));
+			path.set ("assets/images/door16x16.png", "assets/images/door16x16.png");
+			type.set ("assets/images/door16x16.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			path.set ("assets/images/EnemyAxe.png", "assets/images/EnemyAxe.png");
+			type.set ("assets/images/EnemyAxe.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			path.set ("assets/images/EnemySpear.png", "assets/images/EnemySpear.png");
+			type.set ("assets/images/EnemySpear.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			path.set ("assets/images/Stairs.png", "assets/images/Stairs.png");
 			type.set ("assets/images/Stairs.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			path.set ("assets/images/tiles.png", "assets/images/tiles.png");

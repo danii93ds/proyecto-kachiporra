@@ -86,7 +86,7 @@ class Player extends FlxSprite
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X, Y );
-		loadGraphic(AssetPaths.titpitoHaxe__png, true, 16, 16);
+		loadGraphic(AssetPaths.EnemyAxe__png, true, 16, 16);
 		
 		setFacingFlip(FlxObject.LEFT, false, false);
 		setFacingFlip(FlxObject.RIGHT, true, false);
