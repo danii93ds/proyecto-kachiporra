@@ -10,6 +10,8 @@ class Juice extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Juice";
 		
 		_monsterDropRate = 0;
@@ -18,10 +20,10 @@ class Juice extends Food
 		_sellPrice = 0;
 		_buyPrice = 0;
 		
-		_HealthValue: 0;
-		_ArmorValue: 0;
-		_HungryValue: 10;
-		_EnergyValue: 10;
+		_HealthValue= 0;
+		_ArmorValue= 0;
+		_HungryValue= 10;
+		_EnergyValue= 10;
 	}
 	
 }

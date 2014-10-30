@@ -11,6 +11,8 @@ class Orange extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Orange";
 		
 		_monsterDropRate = 20;
@@ -19,10 +21,10 @@ class Orange extends Food
 		_sellPrice = 0;
 		_buyPrice = 35;
 		
-		_HealthValue: 10;
-		_ArmorValue: 0;
-		_HungryValue: 10;
-		_EnergyValue: 0;
+		_HealthValue= 10;
+		_ArmorValue= 0;
+		_HungryValue= 10;
+		_EnergyValue= 0;
 	}
 	
 }

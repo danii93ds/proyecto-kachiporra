@@ -1,18 +1,18 @@
-package items.materials.powders ;
-import items.Item;
+package items.materials.craft;
+import items.materials.Material;
 
 /**
  * ...
  * @author ...
  */
-class GreyPowder extends Item 
+class ScrapMetal extends Material
 {
 
 	public function new() 
 	{
 		super();
 		
-		_itemName = "Grey Powder";
+		_itemName = "Scrap Metal";
 		
 		_monsterDropRate = 40;
 		_chestDropRate = 50;

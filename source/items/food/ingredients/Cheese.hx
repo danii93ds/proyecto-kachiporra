@@ -10,6 +10,8 @@ class Cheese extends Food
 
 	public function new() 
 	{
+		super();
+
 		_itemName = "Cheese";
 		
 		_monsterDropRate = 40;
@@ -18,10 +20,10 @@ class Cheese extends Food
 		_sellPrice = 0;
 		_buyPrice = 50;
 		
-		_HealthValue: 10;
-		_ArmorValue: 0;
-		_HungryValue: 5;
-		_EnergyValue: 0;
+		_HealthValue= 10;
+		_ArmorValue= 0;
+		_HungryValue= 5;
+		_EnergyValue= 0;
 	}
 	
 }

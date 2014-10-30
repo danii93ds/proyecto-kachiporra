@@ -10,6 +10,8 @@ class Bread extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Bread";
 		
 		_monsterDropRate = 40;
@@ -18,10 +20,10 @@ class Bread extends Food
 		_sellPrice = 50;
 		_buyPrice = 0;
 		
-		_HealthValue: 20;
-		_ArmorValue: 0;
-		_HungryValue: 5;
-		_EnergyValue: 0;
+		_HealthValue= 20;
+		_ArmorValue= 0;
+		_HungryValue= 5;
+		_EnergyValue= 0;
 	}
 	
 }

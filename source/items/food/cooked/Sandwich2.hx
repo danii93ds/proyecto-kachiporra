@@ -10,6 +10,8 @@ class Sandwich2 extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Sandwich+";
 		
 		_monsterDropRate = 0;
@@ -18,10 +20,10 @@ class Sandwich2 extends Food
 		_sellPrice = 0;
 		_buyPrice = 0;
 		
-		_HealthValue: 75;
-		_ArmorValue: 0;
-		_HungryValue: 60;
-		_EnergyValue: 0;
+		_HealthValue= 75;
+		_ArmorValue= 0;
+		_HungryValue= 60;
+		_EnergyValue= 0;
 	}
 	
 }

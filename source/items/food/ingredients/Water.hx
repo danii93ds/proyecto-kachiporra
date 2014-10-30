@@ -11,6 +11,8 @@ class Water extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Water";
 		
 		_monsterDropRate = 60;
@@ -19,10 +21,10 @@ class Water extends Food
 		_sellPrice = 0;
 		_buyPrice = 25;
 		
-		_HealthValue: 5;
-		_ArmorValue: 0;
-		_HungryValue: 0;
-		_EnergyValue: 0;
+		_HealthValue= 5;
+		_ArmorValue= 0;
+		_HungryValue= 0;
+		_EnergyValue= 0;
 	}
 	
 }

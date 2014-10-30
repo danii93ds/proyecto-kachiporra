@@ -10,6 +10,8 @@ class Meat extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Meat";
 		
 		_monsterDropRate = 0;
@@ -18,10 +20,10 @@ class Meat extends Food
 		_sellPrice = 0;
 		_buyPrice = 0;
 		
-		_HealthValue: 30;
-		_ArmorValue: 0;
-		_HungryValue: 25;
-		_EnergyValue: 0;
+		_HealthValue= 30;
+		_ArmorValue= 0;
+		_HungryValue= 25;
+		_EnergyValue= 0;
 	}
 	
 }

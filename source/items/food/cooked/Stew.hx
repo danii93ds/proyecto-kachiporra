@@ -8,8 +8,10 @@ import items.Item;
 class Stew extends Food
 {
 
-	public function new(var soupHungry:Int) 
+	public function new(var soupHungry=Int) 
 	{
+		super();
+		
 		_itemName = "Stew";
 		
 		_monsterDropRate = 0;
@@ -18,10 +20,10 @@ class Stew extends Food
 		_sellPrice = 0;
 		_buyPrice = 0;
 		
-		_HealthValue: 75;
-		_ArmorValue: 0;
-		_HungryValue: 50 + soupHungry;
-		_EnergyValue: 0;		
+		_HealthValue= 75;
+		_ArmorValue= 0;
+		_HungryValue= 50 + soupHungry;
+		_EnergyValue= 0;		
 	}
 	
 }

@@ -10,7 +10,7 @@ class Material extends Item
 
 	public function new() 
 	{
-		
+		super();
 	}
 	
 }

@@ -10,6 +10,8 @@ class Apple extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Apple";
 		
 		_monsterDropRate = 20;
@@ -18,10 +20,10 @@ class Apple extends Food
 		_sellPrice = 0;
 		_buyPrice = 35;
 		
-		_HealthValue: 10;
-		_ArmorValue: 0;
-		_HungryValue: 10;
-		_EnergyValue: 5;
+		_HealthValue= 10;
+		_ArmorValue= 0;
+		_HungryValue= 10;
+		_EnergyValue= 5;
 	}
 	
 }

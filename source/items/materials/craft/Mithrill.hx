@@ -1,22 +1,25 @@
 package items.materials.craft ;
 import items.Item;
+import items.materials.Material;
 
 /**
  * ...
  * @author ...
  */
-class RedPowder extends Item
+class Mithrill extends Material
 {
 
 	public function new() 
 	{
-		_itemName = "Red Powder";
+		super();
 		
-		_monsterDropRate = 20;
-		_chestDropRate = 25;
+		_itemName = "Mithrill";
+		
+		_monsterDropRate = 0;
+		_chestDropRate = 30;
 		
 		_sellPrice = 0;
-		_buyPrice = 15;
+		_buyPrice = 70;
 		
 	}
 	

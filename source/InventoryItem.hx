@@ -11,7 +11,7 @@ class InventoryItem
 	private var _item:Item;
 	private var _count:UInt;
 	
-	public function new(item:Item) 
+	public function new() 
 	{
 		_count = 0;
 	}

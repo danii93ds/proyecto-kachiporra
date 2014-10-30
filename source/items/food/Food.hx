@@ -16,7 +16,7 @@ class Food extends Item
 
 	public function new() 
 	{
-		
+		super();
 	}
 	
 }

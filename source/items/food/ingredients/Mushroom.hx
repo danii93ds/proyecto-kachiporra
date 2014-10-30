@@ -10,6 +10,8 @@ class Mushroom extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Mushroom";
 		
 		_monsterDropRate = 10;
@@ -18,10 +20,10 @@ class Mushroom extends Food
 		_sellPrice = 0;
 		_buyPrice = 60;
 		
-		_HealthValue: 5;
-		_ArmorValue: 0;
-		_HungryValue: 2;
-		_EnergyValue: 0;
+		_HealthValue= 5;
+		_ArmorValue= 0;
+		_HungryValue= 2;
+		_EnergyValue= 0;
 	}
 	
 }

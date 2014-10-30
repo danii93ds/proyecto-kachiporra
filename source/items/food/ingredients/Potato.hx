@@ -9,6 +9,8 @@ class Potato extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Potato";
 		
 		_monsterDropRate = 15;
@@ -17,10 +19,10 @@ class Potato extends Food
 		_sellPrice = 0;
 		_buyPrice = 30;
 		
-		_HealthValue: 5;
-		_ArmorValue: 0;
-		_HungryValue: 2;
-		_EnergyValue: 0;
+		_HealthValue= 5;
+		_ArmorValue= 0;
+		_HungryValue= 2;
+		_EnergyValue= 0;
 	}
 	
 }

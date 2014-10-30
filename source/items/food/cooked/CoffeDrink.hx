@@ -11,6 +11,8 @@ class CoffeDrink extends Food
 	
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Coffe Drink";
 		
 		_monsterDropRate = 0;
@@ -19,10 +21,10 @@ class CoffeDrink extends Food
 		_sellPrice = 0;
 		_buyPrice = 0;
 		
-		_HealthValue: 0;
-		_ArmorValue: 0;
-		_HungryValue: 0;
-		_EnergyValue: 15;
+		_HealthValue = 0;
+		_ArmorValue = 0;
+		_HungryValue = 0;
+		_EnergyValue = 15;
 	}
 	
 }

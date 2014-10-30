@@ -10,6 +10,8 @@ class Rice extends Food
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Rice";
 		
 		_monsterDropRate = 15;
@@ -18,10 +20,10 @@ class Rice extends Food
 		_sellPrice = 0;
 		_buyPrice = 60;
 		
-		_HealthValue: 0;
-		_ArmorValue: 0;
-		_HungryValue: 0;
-		_EnergyValue: 0;
+		_HealthValue= 0;
+		_ArmorValue= 0;
+		_HungryValue= 0;
+		_EnergyValue= 0;
 	}
 	
 }

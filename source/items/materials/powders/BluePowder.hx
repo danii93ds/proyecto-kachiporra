@@ -10,6 +10,8 @@ class BluePowder extends Item
 
 	public function new() 
 	{
+		super();
+		
 		_itemName = "Blue Powder";
 		
 		_monsterDropRate = 20;
