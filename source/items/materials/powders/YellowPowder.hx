@@ -17,11 +17,7 @@ class YellowPowder extends Item
 		
 		_sellPrice = 0;
 		_buyPrice = 15;
-		
-		_HealthValue: 0;
-		_ArmorValue: 0;
-		_HungryValue: 0;
-		_EnergyValue: 0;
+
 	}
 	
 }

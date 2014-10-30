@@ -5,7 +5,7 @@ import items.Item;
  * ...
  * @author ...
  */
-class BluePowder extends
+class BluePowder extends Item
 {
 
 	public function new() 

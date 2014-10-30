@@ -68,17 +68,17 @@ class Player extends FlxSprite
 	}
 		
 	public function setStatus(statusName:String):Void {
-		Bool found = false;
+		var found:Bool = false;
 		for (status in _status)
-			if (status.getName == statusName) found = true;
+			if (status.getName() == statusName) found = true;
 		
 		if (!found) {
 			var newStatus:Status = new Status(statusName, -1);
-			
+
 			if (statusName == "Slowed") { found = true; /*attackSpeed-*/ };
-			if (statusName == "Stuned") newStatus.setTurns = 2;
-			if (statusName == "Poisoned") newStatus.setTurns = 5;
-			if (statusName == "OnFire") newStatus.setTurns = 3;
+			if (statusName == "Stuned") newStatus.setTurns(2);
+			if (statusName == "Poisoned") newStatus.setTurns(5);
+			if (statusName == "OnFire") newStatus.setTurns(3);
 			
 			_status.push(newStatus);
 		}
@@ -87,22 +87,20 @@ class Player extends FlxSprite
 	
 	public function cureStatus(statusName:String):Void {
 		var removed:Bool = false;
-		var removed:Bool = false;
-		var statusFound:Status;
+		var statusFound:Status = new Status("",0);
 		for (status in _status){
-			if (status.getName == statusName) {
+			if (status.getName() == statusName) {
 				removed = true;
 				statusFound = status;
 			}
 		}
 			
 		if (removed) {
-			
+		
 			//if (statusName == "Slowed") { }
 			//if (statusName == "Stuned") found = true;
 			//if (statusName == "Poisoned") found = true;
 			//if (statusName == "OnFire") found = true;
-			
 			_status.remove(statusFound);
 			
 		}

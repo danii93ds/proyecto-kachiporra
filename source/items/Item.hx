@@ -33,14 +33,5 @@ class Item
 	{
 		_itemName = name;
 	}
-	/*
-	public function dropRateGet() {
-		return _dropRate
-	}
-	
-	public function dropRateSet(value:Float):Float 
-	{
-		_dropRate = value;
-	}
-	*/
+
 }

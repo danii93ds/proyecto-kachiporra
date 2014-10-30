@@ -1,4 +1,4 @@
-package items.materials.crafting ;
+package items.materials.craft ;
 import items.Item;
 
 /**
