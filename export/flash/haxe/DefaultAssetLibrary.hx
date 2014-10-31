@@ -56,6 +56,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/data/testLevel.oep", AssetType.TEXT);
 		className.set ("assets/data/tilemap.oep", __ASSET__assets_data_tilemap_oep);
 		type.set ("assets/data/tilemap.oep", AssetType.TEXT);
+		className.set ("assets/images/door16x16.png", __ASSET__assets_images_door16x16_png);
+		type.set ("assets/images/door16x16.png", AssetType.IMAGE);
+		className.set ("assets/images/EnemyAxe.png", __ASSET__assets_images_enemyaxe_png);
+		type.set ("assets/images/EnemyAxe.png", AssetType.IMAGE);
+		className.set ("assets/images/EnemySpear.png", __ASSET__assets_images_enemyspear_png);
+		type.set ("assets/images/EnemySpear.png", AssetType.IMAGE);
 		className.set ("assets/images/Stairs.png", __ASSET__assets_images_stairs_png);
 		type.set ("assets/images/Stairs.png", AssetType.IMAGE);
 		className.set ("assets/images/tiles.png", __ASSET__assets_images_tiles_png);
@@ -88,6 +94,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		id = "assets/data/tilemap.oep";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
+		id = "assets/images/door16x16.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/EnemyAxe.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/EnemySpear.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
 		id = "assets/images/Stairs.png";
 		path.set (id, id);
 		type.set (id, AssetType.IMAGE);
@@ -128,6 +143,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/data/tilemap.oep", __ASSET__assets_data_tilemap_oep);
 		type.set ("assets/data/tilemap.oep", AssetType.TEXT);
+		
+		className.set ("assets/images/door16x16.png", __ASSET__assets_images_door16x16_png);
+		type.set ("assets/images/door16x16.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/EnemyAxe.png", __ASSET__assets_images_enemyaxe_png);
+		type.set ("assets/images/EnemyAxe.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/EnemySpear.png", __ASSET__assets_images_enemyspear_png);
+		type.set ("assets/images/EnemySpear.png", AssetType.IMAGE);
 		
 		className.set ("assets/images/Stairs.png", __ASSET__assets_images_stairs_png);
 		type.set ("assets/images/Stairs.png", AssetType.IMAGE);
@@ -768,6 +792,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep class __ASSET__assets_data_room_001_oel extends openfl.utils.ByteArray { }
 @:keep class __ASSET__assets_data_testlevel_oep extends openfl.utils.ByteArray { }
 @:keep class __ASSET__assets_data_tilemap_oep extends openfl.utils.ByteArray { }
+@:keep class __ASSET__assets_images_door16x16_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep class __ASSET__assets_images_enemyaxe_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep class __ASSET__assets_images_enemyspear_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_images_stairs_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_images_tiles_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_images_titpitohaxe_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -791,6 +818,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
 #elseif (windows || mac || linux)
 
 
@@ -799,6 +829,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:file("assets/data/room-001.oel") class __ASSET__assets_data_room_001_oel extends flash.utils.ByteArray {}
 @:file("assets/data/testLevel.oep") class __ASSET__assets_data_testlevel_oep extends flash.utils.ByteArray {}
 @:file("assets/data/tilemap.oep") class __ASSET__assets_data_tilemap_oep extends flash.utils.ByteArray {}
+@:bitmap("assets/images/door16x16.png") class __ASSET__assets_images_door16x16_png extends flash.display.BitmapData {}
+@:bitmap("assets/images/EnemyAxe.png") class __ASSET__assets_images_enemyaxe_png extends flash.display.BitmapData {}
+@:bitmap("assets/images/EnemySpear.png") class __ASSET__assets_images_enemyspear_png extends flash.display.BitmapData {}
 @:bitmap("assets/images/Stairs.png") class __ASSET__assets_images_stairs_png extends flash.display.BitmapData {}
 @:bitmap("assets/images/tiles.png") class __ASSET__assets_images_tiles_png extends flash.display.BitmapData {}
 @:bitmap("assets/images/titpitoHaxe.png") class __ASSET__assets_images_titpitohaxe_png extends flash.display.BitmapData {}

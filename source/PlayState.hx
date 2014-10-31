@@ -23,7 +23,8 @@ import flixel.FlxCamera;
 import flash.display.Sprite;
 import map.BSPgenerator;
 import map.MapDistribution;
-
+import haxe.Timer;
+import flixel.util.FlxColor;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -38,6 +39,7 @@ class PlayState extends FlxState
 	public var mapDistr:MapDistribution;
 	//MAP DISTRIBUTION VARIABLES
 	public var entrance:FlxSprite;
+	public var exit:FlxSprite;
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
@@ -67,6 +69,9 @@ class PlayState extends FlxState
 		entrance = new FlxSprite(mapDistr.entrancePos.x, mapDistr.entrancePos.y);
 		entrance.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
 		add(entrance);
+		exit = new FlxSprite(mapDistr.exitPos.x, mapDistr.exitPos.y);
+		exit.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
+		add(exit);
 		
 		//PLAYER
 		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls);
@@ -79,7 +84,7 @@ class PlayState extends FlxState
 		_dijkstra = new Dijkstra(allRooms[0], _mWalls);
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
-		
+		FlxG.camera.fade(FlxColor.BLACK,1,true);
 		super.create();
 	}
 	
@@ -92,6 +97,13 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+		if (FlxG.overlap(_player,exit))
+		{
+			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
+			FlxG.switchState(new PlayState());
+			});
+		}
+			
 
 	}
 	

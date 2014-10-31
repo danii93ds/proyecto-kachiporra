@@ -8,7 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 using flixel.util.FlxSpriteUtil;
 import flixel.util.FlxDestroyUtil;
-
+import flixel.util.FlxColor;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -49,6 +49,8 @@ class MenuState extends FlxState
 	
 	private function clickPlay():Void
 	{
+		FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
 		FlxG.switchState(new PlayState());
+		});
 	}
 }

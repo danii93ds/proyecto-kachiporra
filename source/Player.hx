@@ -34,7 +34,7 @@ enum MoveDirection
 class Player extends FlxSprite
 {
 	//movement variables
-	private var MOVEMENT_SPEED:Int = 2;
+	private var MOVEMENT_SPEED:Float = 1;
 	private var moveMap:FlxTilemap;
 	private var TILE_SIZE:Int = 16;
 	public var moveToNextTile:Bool;
@@ -46,6 +46,7 @@ class Player extends FlxSprite
 	public var moveDown:Bool;
 	public var moveLeft:Bool;
 	public var moveRight:Bool;
+	
 	
 	
 	//Health  5 per level
@@ -93,7 +94,7 @@ class Player extends FlxSprite
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X, Y );
-		loadGraphic(AssetPaths.EnemyAxe__png, true, 16, 16);
+		loadGraphic(AssetPaths.titpitoHaxe__png, true, 16, 16);
 		
 		setFacingFlip(FlxObject.LEFT, false, false);
 		setFacingFlip(FlxObject.RIGHT, true, false);
@@ -159,17 +160,31 @@ class Player extends FlxSprite
 			switch (moveDirection)
 			{
 				case UP:
-					if(moveUp == true)
+					if (moveUp == true)
+					{
 						y -= MOVEMENT_SPEED;
+						animation.play("u");
+					}
 				case DOWN:
-					if(moveDown == true)
+					if (moveDown == true)
+					{
 						y += MOVEMENT_SPEED;
+						animation.play("d");
+					}
 				case LEFT:
-					if(moveLeft == true)
+					if (moveLeft == true)
+					{
 						x -= MOVEMENT_SPEED;
+						facing = FlxObject.LEFT;
+						animation.play("lr");
+					}
 				case RIGHT:
-					if(moveRight == true)
+					if (moveRight == true)
+					{
 						x += MOVEMENT_SPEED;
+						facing = FlxObject.RIGHT;
+						animation.play("lr");
+					}
 			}
 		}
 		

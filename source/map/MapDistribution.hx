@@ -28,11 +28,12 @@ class MapDistribution
 		else
 			entrancePos.y = allRooms[0].y * tileSize + (allRooms[0].height * tileSize) / 2;
 		
-			//set player position
+		//set player position
 		playerStartPos = new Point(0, 0);
 		playerStartPos.x = entrancePos.x;
 		playerStartPos.y = entrancePos.y;
 		
+		//set exit pos
 		exitPos = new Point(0,0);
 		exitPos.x = allRooms[allRooms.length - 1].x * tileSize + (allRooms[allRooms.length - 1].width * tileSize) / 2;
 		exitPos.y = allRooms[allRooms.length - 1].y * tileSize + (allRooms[allRooms.length - 1].height * tileSize - tileSize);

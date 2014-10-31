@@ -9,7 +9,7 @@ class InventoryItem
 {
 
 	private var _item:Item;
-	private var _count:UInt;
+	private var _count:Int;
 	
 	public function new() 
 	{
