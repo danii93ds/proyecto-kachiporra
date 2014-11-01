@@ -17,6 +17,7 @@ class MenuState extends FlxState
 {
 	
 	private var _btnPlay:FlxButton;
+	private var _btnSite:FlxButton;
 	
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -26,6 +27,8 @@ class MenuState extends FlxState
 		_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
 		add(_btnPlay);
 		_btnPlay.screenCenter();
+		_btnSite = new FlxButton(0, 0, "Game Site", loadURL);
+		add(_btnSite);
 		super.create();
 	}
 	
@@ -52,5 +55,10 @@ class MenuState extends FlxState
 		FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
 		FlxG.switchState(new PlayState());
 		});
+	}
+	
+	private function loadURL():Void
+	{
+		FlxG.openURL("code.google.com/p/proyecto-kachiporra/", "blank");
 	}
 }
