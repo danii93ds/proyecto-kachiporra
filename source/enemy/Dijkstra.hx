@@ -12,7 +12,7 @@ import openfl.Vector;
 class Dijkstra
 {
 	public var area:Array<Array<Node>>;
-	public var path:Vector<Node>;
+	public var path:Vector<Node> = new Vector<Node>();
 	public var pathSum:Int = 0;
 	public var room:Rectangle;
 	
@@ -65,94 +65,114 @@ class Dijkstra
 		}
 	}
 	
-	public function SetNeighbours(enemyPos:Point,_mWalls:FlxTilemap)
+	public function FindMinNodePos():Point
 	{
-		var tempNode:Node = new Node();
-		var i:Int = 0;
-		var j:Int = 0;
-		
-		for (array in area)
-		{
-			for (node in array)
-			{
-				if (node.x == enemyPos.x && node.y == enemyPos.y)
-				{
-					node.nodeSum = 0;
-				}
-				j++;
-			}
-			i++;
-		}
-	}
-	
-	//se llama dentro de set neighbours
-	public function ChoosePath(_mWalls:FlxTilemap)
-	{
-		path = new Vector<Node>();
-		var target:Node;
-		var currentNode:Node = new Node();
-		//el nodo con el valor mas chico, es decir el que usamos
-		area[0][0].nodeSum = 0;
-		
+		var maxValue:Int = 999;
+		var maxNodeIndex:Point = new Point(0,0);
 		
 		for (i in 0...cast room.width)
 		{
 			for (j in 0...cast room.height)
 			{
-				
-				if (currentNode.nodeSum >= area[i][j].nodeSum && area[i][j].visited != true)
+				if (area[i][j].nodeSum <= maxValue && area[i][j].visited != true)
 				{
-					currentNode = area[i][j];
-					
-					//si arriba no hay pared
-					if (_mWalls.getTile(currentNode.x,currentNode.y - 1) != 2)
-					{
-						//si se puede ir mas arriba
-						if (i - 1 >= 0)
-						{
-							if (currentNode.nodeSum + area[i - 1][j].moveCost <= area[i - 1][j].nodeSum)
-								area[i - 1][j].nodeSum = currentNode.nodeSum + area[i - 1][j].moveCost;
-						}
-							
-					}
-					//si abajo no hay pared
-					if (_mWalls.getTile(currentNode.x, currentNode.y + 1) != 2)
-					{
-						//si se puede ir mas abajo
-						if (i + 1 <= room.width)
-						{
-							if (currentNode.nodeSum + area[i + 1][j].moveCost <= area[i + 1][j].nodeSum)
-								area[i + 1][j].nodeSum = currentNode.nodeSum + area[i + 1][j].moveCost;
-						}
-					}
-					//si izquierda no hay pared
-					if (_mWalls.getTile(currentNode.x + 1, currentNode.y) != 2)
-					{
-						//si se puede ir mas izquierda
-						if (j + 1 <= 0)
-						{
-							if (currentNode.nodeSum + area[i][j + 1].moveCost <= area[i][j + 1].nodeSum)
-								area[i][j + 1].nodeSum = currentNode.nodeSum + area[i][j + 1].moveCost;
-						}
-					}
-					//si derecha no hay pared
-					if (_mWalls.getTile(currentNode.x - 1, currentNode.y) != 2)
-					{
-						//si se puede ir mas derecha
-						if (j - 1 >= 0)
-						{
-							if (currentNode.nodeSum + area[i][j - 1].moveCost <= area[i][j - 1].nodeSum)
-								area[i][j - 1].nodeSum = currentNode.nodeSum + area[i][j - 1].moveCost;
-								FlxG.log.add(area[i][j - 1].nodeSum);
-						}
-					}
-					
-					currentNode.visited = true;
-					path.push(currentNode);
-				
+					maxValue = area[i][j].nodeSum;
+					maxNodeIndex.x = i;
+					maxNodeIndex.y = j;
 				}
 			}
 		}
+		
+		return maxNodeIndex;
+	}
+	
+	//se llama dentro de set neighbours
+	public function ChoosePath(_mWalls:FlxTilemap)
+	{
+		var target:Node = new Node();
+		target.x = area[0][0].x;
+		target.y = area[0][0].y;
+		FlxG.log.add(area[0][0].x + " " + area[2][2].y + " target");
+		
+		//el nodo con el valor mas chico, es decir el que usamos
+		area[3][1].nodeSum = 0;
+		
+		var index:Point;
+		var i:Int;
+		var j:Int;
+		var outOfWhile:Bool = false;
+		
+		do {
+			FlxG.log.add("entro a while");
+			index = FindMinNodePos();
+			i = cast index.x;
+			j = cast index.y;
+			//si arriba no hay pared
+			if (_mWalls.getTile(area[i][j].x,area[i][j].y - 1) != 2)
+			{
+			//si se puede ir mas arriba
+				if (i - 1 >= 0)
+				{
+					if (area[i][j].nodeSum + area[i - 1][j].moveCost <= area[i - 1][j].nodeSum && area[i - 1][j].visited != true)
+					{
+						area[i - 1][j].nodeSum = area[i][j].nodeSum + area[i - 1][j].moveCost;
+						if (area[i - 1][j].x == target.x && area[i - 1][j].y == target.y)
+							outOfWhile = true;
+					}
+				}
+			}
+			//si abajo no hay pared
+			if (_mWalls.getTile(area[i][j].x,area[i][j].y + 1) != 2)
+			{
+			//si se puede ir mas abajo
+				if (i + 1 >= 0)
+				{
+					if (area[i][j].nodeSum + area[i + 1][j].moveCost <= area[i + 1][j].nodeSum && area[i + 1][j].visited != true)
+					{
+						area[i + 1][j].nodeSum = area[i][j].nodeSum + area[i + 1][j].moveCost;
+						if (area[i + 1][j].x == target.x && area[i + 1][j].y == target.y)
+							outOfWhile = true;
+					}
+				}
+			}
+						
+			//si izquierda no hay pared
+			if (_mWalls.getTile(area[i][j].x + 1, area[i][j].y) != 2)
+			{
+				//si se puede ir mas izquierda
+				if (j + 1 <= room.height)
+				{
+					if (area[i][j].nodeSum + area[i][j + 1].moveCost <= area[i][j + 1].nodeSum && area[i][j + 1].visited != true)
+					{
+						area[i][j + 1].nodeSum = area[i][j].nodeSum + area[i][j + 1].moveCost;
+						if (area[i][j + 1].x == target.x && area[i][j + 1].y == target.y)
+							outOfWhile = true;
+					}	
+				}
+			}
+			//si derecha no hay pared
+			if (_mWalls.getTile(area[i][j].x - 1, area[i][j].y) != 2)
+			{
+				//si se puede ir mas derecha
+				if (j - 1 <= room.height)
+				{
+					if (area[i][j].nodeSum + area[i][j - 1].moveCost <= area[i][j - 1].nodeSum && area[i][j - 1].visited != true)
+					{
+						area[i][j - 1].nodeSum = area[i][j].nodeSum + area[i][j - 1].moveCost;
+						if (area[i][j - 1].x == target.x && area[i][j - 1].y == target.y)
+							outOfWhile = true;
+							
+					}	
+				}
+			}
+			area[i][j].visited = true;
+			//path.push(area[i][j]);
+			
+			ShowLogValueMap();
+			FlxG.log.add("salgo");
+			FlxG.log.add(outOfWhile);
+		}while (!outOfWhile);
+		
 		
 	}
 }

@@ -21,7 +21,7 @@ class Node
 		y = 0;
 		moveCost = 0;
 		visited = false;
-		nodeSum = 999;
+		nodeSum = 9;
 	}
 	
 }
