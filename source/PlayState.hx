@@ -63,7 +63,7 @@ class PlayState extends FlxState
 		bsp = new BSPgenerator();
 		bsp.CreateLeafs();
 		DrawDungeon();
-		
+
 		//DISTRIBUCION DEL MAPA
 		mapDistr = new MapDistribution(allRooms);
 		entrance = new FlxSprite(mapDistr.entrancePos.x, mapDistr.entrancePos.y);

@@ -47,6 +47,7 @@ class Dijkstra
 
 		ChoosePath(_mWalls);
 		ShowLogValueMap();
+		FlxG.log.add("termine");
 	}
 	
 	
@@ -90,27 +91,26 @@ class Dijkstra
 	public function ChoosePath(_mWalls:FlxTilemap)
 	{
 		var target:Node = new Node();
-		target.x = area[0][0].x;
-		target.y = area[0][0].y;
-		FlxG.log.add(area[0][0].x + " " + area[2][2].y + " target");
+		target.x = area[2][3].x;
+		target.y = area[2][3].y;
 		
 		//el nodo con el valor mas chico, es decir el que usamos
-		area[3][1].nodeSum = 0;
+		area[1][1].nodeSum = 0;
 		
-		var index:Point;
+		var index:Point = new Point();
 		var i:Int;
 		var j:Int;
 		var outOfWhile:Bool = false;
 		
 		do {
-			FlxG.log.add("entro a while");
 			index = FindMinNodePos();
 			i = cast index.x;
 			j = cast index.y;
-			//si arriba no hay pared
-			if (_mWalls.getTile(area[i][j].x,area[i][j].y - 1) != 2)
+			
+			//si derecha no hay pared
+			if (_mWalls.getTile(area[i][j].x - 1,area[i][j].y) != 2)
 			{
-			//si se puede ir mas arriba
+			//si se puede ir mas derecha
 				if (i - 1 >= 0)
 				{
 					if (area[i][j].nodeSum + area[i - 1][j].moveCost <= area[i - 1][j].nodeSum && area[i - 1][j].visited != true)
@@ -121,11 +121,12 @@ class Dijkstra
 					}
 				}
 			}
-			//si abajo no hay pared
-			if (_mWalls.getTile(area[i][j].x,area[i][j].y + 1) != 2)
+			
+			//si izquierda no hay pared
+			if (_mWalls.getTile(area[i][j].x + 1,area[i][j].y) != 2)
 			{
-			//si se puede ir mas abajo
-				if (i + 1 >= 0)
+			//si se puede ir mas izquierda
+				if (i + 1 < room.width)
 				{
 					if (area[i][j].nodeSum + area[i + 1][j].moveCost <= area[i + 1][j].nodeSum && area[i + 1][j].visited != true)
 					{
@@ -135,12 +136,12 @@ class Dijkstra
 					}
 				}
 			}
-						
-			//si izquierda no hay pared
-			if (_mWalls.getTile(area[i][j].x + 1, area[i][j].y) != 2)
+					
+			//si abajo no hay pared
+			if (_mWalls.getTile(area[i][j].x, area[i][j].y + 1) != 2)
 			{
-				//si se puede ir mas izquierda
-				if (j + 1 <= room.height)
+				//si se puede ir mas abajo
+				if (j + 1 < room.height)
 				{
 					if (area[i][j].nodeSum + area[i][j + 1].moveCost <= area[i][j + 1].nodeSum && area[i][j + 1].visited != true)
 					{
@@ -150,11 +151,12 @@ class Dijkstra
 					}	
 				}
 			}
-			//si derecha no hay pared
-			if (_mWalls.getTile(area[i][j].x - 1, area[i][j].y) != 2)
+			
+			//si arriba no hay pared
+			if (_mWalls.getTile(area[i][j].x, area[i][j].y - 1) != 2)
 			{
-				//si se puede ir mas derecha
-				if (j - 1 <= room.height)
+				//si se puede ir mas arriba
+				if (j - 1 >= 0)
 				{
 					if (area[i][j].nodeSum + area[i][j - 1].moveCost <= area[i][j - 1].nodeSum && area[i][j - 1].visited != true)
 					{
@@ -165,12 +167,12 @@ class Dijkstra
 					}	
 				}
 			}
+			
 			area[i][j].visited = true;
 			//path.push(area[i][j]);
 			
 			ShowLogValueMap();
-			FlxG.log.add("salgo");
-			FlxG.log.add(outOfWhile);
+			FlxG.log.add(" ");
 		}while (!outOfWhile);
 		
 		
