@@ -154,7 +154,7 @@ class Player extends FlxSprite
 	//CAMBIAR PARA QUE SE MUEVA DE 16 EN 16 (haciendo + no colisiona)
 	private function movement():Void
 	{
-			// Move the player to the next block
+		// Move the player to the next block
 		if (moveToNextTile)
 		{
 			switch (moveDirection)

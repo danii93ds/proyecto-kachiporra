@@ -12,7 +12,6 @@ import openfl.Vector;
 class Dijkstra
 {
 	public var area:Array<Array<Node>>;
-	public var realPath:Vector<Node> = new Vector<Node>(); // guarda el path invertido
 	public var room:Rectangle;
 	
 	public function new(_room:Rectangle,_mWalls:FlxTilemap) 
@@ -86,10 +85,11 @@ class Dijkstra
 	}
 	
 	//se llama dentro de set neighbours
-	public function ChoosePath(_mWalls:FlxTilemap)
+	public function ChoosePath(_mWalls:FlxTilemap):Vector<Node>
 	{
 		var target:Node = new Node();
 		var couldPath:Vector<Node> = new Vector<Node>();
+		var realPath:Vector<Node> = new Vector<Node>();
 		target = area[2][3];
 		var preD:Node = target;
 		
@@ -217,5 +217,7 @@ class Dijkstra
 				}
 			}
 		}while (preD.nodeSum != 0);
+		
+		return realPath;
 	}
 }

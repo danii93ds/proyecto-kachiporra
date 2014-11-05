@@ -25,6 +25,7 @@ import map.BSPgenerator;
 import map.MapDistribution;
 import haxe.Timer;
 import flixel.util.FlxColor;
+import enemy.Enemy;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -44,8 +45,8 @@ class PlayState extends FlxState
 	private var _player:Player;
 	private var _playerSet:Bool = false;
 	//ENEMY VARIABLES
-	public var _dijkstra:Dijkstra;
-
+	public var _enemySpear:Array<Enemy>;
+	public var enemy:Enemy;
 	
 	
 	
@@ -81,7 +82,17 @@ class PlayState extends FlxState
 		add(_player);
 		
 		//ENEMY
-		_dijkstra = new Dijkstra(allRooms[0], _mWalls);
+		enemy = new Enemy(mapDistr.exitPos.x, mapDistr.exitPos.y, _mWalls);
+		add(enemy);
+		/*
+		var i:Int = 0;
+		_enemySpear = new Array<Enemy>();
+		for (pos in mapDistr.enemySpawn)
+		{
+			_enemySpear[i] = new Enemy(pos.x, pos.y,_mWalls);
+			i++;
+		}
+		*/
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
 		FlxG.camera.fade(FlxColor.BLACK,1,true);
