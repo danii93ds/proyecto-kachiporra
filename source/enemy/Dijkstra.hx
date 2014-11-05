@@ -12,8 +12,7 @@ import openfl.Vector;
 class Dijkstra
 {
 	public var area:Array<Array<Node>>;
-	public var path:Vector<Node> = new Vector<Node>();
-	public var pathSum:Int = 0;
+	public var realPath:Vector<Node> = new Vector<Node>(); // guarda el path invertido
 	public var room:Rectangle;
 	
 	public function new(_room:Rectangle,_mWalls:FlxTilemap) 
@@ -25,7 +24,6 @@ class Dijkstra
 		var destY = Std.int(room.height) + startY;
 		var heightIndex:Int = 0;
 		var widthIndex:Int = 0;
-		var nsfng:Node;
 		
 		
 		area = {[for (x in 0...cast room.width) [for (y in 0...cast room.height) new Node()]];}
@@ -91,8 +89,9 @@ class Dijkstra
 	public function ChoosePath(_mWalls:FlxTilemap)
 	{
 		var target:Node = new Node();
-		target.x = area[2][3].x;
-		target.y = area[2][3].y;
+		var couldPath:Vector<Node> = new Vector<Node>();
+		target = area[2][3];
+		var preD:Node = target;
 		
 		//el nodo con el valor mas chico, es decir el que usamos
 		area[1][1].nodeSum = 0;
@@ -106,6 +105,8 @@ class Dijkstra
 			index = FindMinNodePos();
 			i = cast index.x;
 			j = cast index.y;
+			//meto el nodo en path
+			couldPath.push(area[i][j]);
 			
 			//si derecha no hay pared
 			if (_mWalls.getTile(area[i][j].x - 1,area[i][j].y) != 2)
@@ -117,7 +118,10 @@ class Dijkstra
 					{
 						area[i - 1][j].nodeSum = area[i][j].nodeSum + area[i - 1][j].moveCost;
 						if (area[i - 1][j].x == target.x && area[i - 1][j].y == target.y)
+						{
+							couldPath.push(area[i - 1][j]);
 							outOfWhile = true;
+						}
 					}
 				}
 			}
@@ -132,7 +136,10 @@ class Dijkstra
 					{
 						area[i + 1][j].nodeSum = area[i][j].nodeSum + area[i + 1][j].moveCost;
 						if (area[i + 1][j].x == target.x && area[i + 1][j].y == target.y)
+						{
+							couldPath.push(area[i + 1][j]);
 							outOfWhile = true;
+						}
 					}
 				}
 			}
@@ -147,7 +154,10 @@ class Dijkstra
 					{
 						area[i][j + 1].nodeSum = area[i][j].nodeSum + area[i][j + 1].moveCost;
 						if (area[i][j + 1].x == target.x && area[i][j + 1].y == target.y)
+						{
+							couldPath.push(area[i][j + 1]);
 							outOfWhile = true;
+						}
 					}	
 				}
 			}
@@ -162,19 +172,50 @@ class Dijkstra
 					{
 						area[i][j - 1].nodeSum = area[i][j].nodeSum + area[i][j - 1].moveCost;
 						if (area[i][j - 1].x == target.x && area[i][j - 1].y == target.y)
+						{
+							couldPath.push(area[i][j - 1]);
 							outOfWhile = true;
-							
+						}	
 					}	
 				}
 			}
-			
 			area[i][j].visited = true;
-			//path.push(area[i][j]);
-			
+
 			ShowLogValueMap();
 			FlxG.log.add(" ");
 		}while (!outOfWhile);
+	
 		
-		
+		//guarda el path (esta invertido)
+		realPath.push(target); // empieza desde el target y va para atras
+		do{
+			for (node in couldPath)
+			{
+				if (node.nodeSum < preD.nodeSum)
+				{
+					//si a la izquierda no hay pared
+					if (node.x + 1 == preD.x && node.y == preD.y)
+					{
+						realPath.push(node);
+						preD = node;
+						//si a la dercha no hay pared
+					}else if(node.x - 1 == preD.x && node.y == preD.y)
+					{
+						realPath.push(node);
+						preD = node;
+						//si abajo no hay pared
+					}else if(node.x == preD.x && node.y + 1 == preD.y)
+					{
+						realPath.push(node);
+						preD = node;
+						//si arriba no hay pared
+					}else if(node.x == preD.x && node.y - 1 == preD.y)
+					{
+						realPath.push(node);
+						preD = node;
+					}
+				}
+			}
+		}while (preD.nodeSum != 0);
 	}
 }
