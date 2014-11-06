@@ -20,6 +20,7 @@ import openfl.Vector;
 import flixel.util.FlxRandom;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxPoint;
+import flixel.FlxObject;
 import items.Item;
 import enemy.Enemy;
 import Status;
@@ -261,6 +262,56 @@ class Player extends FlxSprite
 		}
 	}
 	
+	public function attackCommand():Int {
+		 
+		if (FlxG.mouse.justPressedRight || FlxG.mouse.justPressed)
+		if (!moveToNextTile) 
+		{			
+			var playerPos:FlxPoint = new FlxPoint(0, 0);
+			var toGoPos:FlxPoint = new FlxPoint(0,0);
+			getMidpoint().copyTo(toGoPos).copyTo(playerPos);
+			
+			
+			if (facing == cast FlxObject.UP ){
+				toGoPos.y = toGoPos.y - 5 * 16;
+				playerPos.y = playerPos.y - 1 * 16;
+				FlxG.log.add("si");
+			}
+			if (facing == cast FlxObject.DOWN){
+				toGoPos.y = toGoPos.y + 5 * 16;
+				playerPos.y = playerPos.y + 1 * 16;
+				FlxG.log.add("si");
+			}
+			if (facing == cast FlxObject.LEFT){
+				toGoPos.x = toGoPos.x - 5 * 16;
+				playerPos.x = playerPos.x - 1 * 16;
+				FlxG.log.add("si");
+			}
+			if (facing == cast FlxObject.RIGHT){
+				toGoPos.x = toGoPos.x + 4 * 16;
+				playerPos.x = playerPos.x + 1 * 16;
+				FlxG.log.add("si");
+			}
+			
+			var result:FlxPoint = new FlxPoint(0, 0);
+			FlxG.log.add(moveMap.ray(playerPos, toGoPos, result));
+			FlxG.log.add(playerPos.x + "x " + playerPos.y + "y <- playerPos \n");
+			FlxG.log.add(toGoPos.x + "x " + toGoPos.y + "y <- ToGoPos \n");
+			FlxG.log.add(result.x + "x " + result.y + "y <- colide in");
+
+			if (FlxG.mouse.justPressed) {
+				
+				attackMelee();
+				//animation attack melee
+			}
+			if (FlxG.mouse.justPressedRight) {
+				return attackRange();
+				//animation attack range
+			}
+		}
+		
+		return 0;
+	}
 	
 	override public function draw():Void 
 	{
@@ -414,11 +465,14 @@ class Player extends FlxSprite
 		return pos;
 	}
 	
+	public function getDamage(damage:Int) {
+		_currentHealth -= (damage - Math.round((_Defense + _Armor.Defense()) / 3));
+	}
 	
 	override public function update():Void 
 	{
 		super.update();
 		movement();
-		
+		attackCommand();
 	}
 }
