@@ -21,6 +21,7 @@ import flixel.util.FlxRandom;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxPoint;
 import items.Item;
+import enemy.Enemy;
 import Status;
 
 
@@ -195,11 +196,11 @@ class Player extends FlxSprite
 			moveToNextTile = false;
 			//collision on each direction
 			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
-				moveUp = false;
+					moveUp = false;
 			else
 				moveUp = true;
 			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) == 2)
-				moveDown = false;
+					moveDown = false;
 			else
 				moveDown = true;
 			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) == 2)
@@ -412,6 +413,7 @@ class Player extends FlxSprite
 		pos.y = this.y;
 		return pos;
 	}
+	
 	
 	override public function update():Void 
 	{

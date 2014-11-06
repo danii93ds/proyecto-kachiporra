@@ -64,7 +64,7 @@ class Enemy extends FlxSprite
 	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
 	{
 		//posiciones que le manda para que aparezca el personaje
-		super(X, Y );
+		super(X , Y );
 		loadGraphic(AssetPaths.EnemySpear__png, true, 16, 16);
 		
 		setFacingFlip(FlxObject.LEFT, false, false);
@@ -81,7 +81,6 @@ class Enemy extends FlxSprite
 		#end
 		moveMap = new FlxTilemap();
 		moveMap = _mWalls;
-		
 		
 		playerPos = FlxPoint.get();
 		

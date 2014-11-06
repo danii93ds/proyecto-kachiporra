@@ -86,8 +86,7 @@ class PlayState extends FlxState
 		_enemySpear = new FlxTypedGroup();
 		add(_enemySpear);
 		for (pos in mapDistr.enemySpawn)
-			_enemySpear.add(new Enemy(pos.x , pos.y , _mWalls));
-		
+			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, _mWalls));
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
 		FlxG.camera.fade(FlxColor.BLACK,1,true);
@@ -121,6 +120,8 @@ class PlayState extends FlxState
 			});
 		}
 	}
+	
+	
 	
 	public function DrawDungeon():Void
 	{

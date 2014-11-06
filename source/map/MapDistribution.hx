@@ -4,6 +4,7 @@ import openfl.geom.Point;
 import openfl.Vector;
 import openfl.geom.Rectangle;
 import flixel.util.FlxRandom;
+import flixel.FlxG;
 /**
  * ...
  * @author ...
@@ -36,9 +37,15 @@ class MapDistribution
 		playerStartPos.y = entrancePos.y;
 		
 		//set exit pos
-		exitPos = new Point(0,0);
-		exitPos.x = allRooms[allRooms.length - 1].x * tileSize + (allRooms[allRooms.length - 1].width * tileSize) / 2;
-		exitPos.y = allRooms[allRooms.length - 1].y * tileSize + (allRooms[allRooms.length - 1].height * tileSize - tileSize);
+		exitPos = new Point(0, 0);
+		if (allRooms[allRooms.length - 1].width % 2 != 0)
+			exitPos.x = allRooms[allRooms.length - 1].x * tileSize + (allRooms[allRooms.length - 1].width * tileSize) / 2 + (tileSize / 2);
+		else
+			exitPos.x = allRooms[allRooms.length - 1].x * tileSize + (allRooms[allRooms.length - 1].width * tileSize) / 2 - tileSize;
+		if (allRooms[allRooms.length - 1].height % 2 != 0)
+			exitPos.y = allRooms[allRooms.length - 1].y * tileSize + (allRooms[allRooms.length - 1].height * tileSize) / 2 - (tileSize / 2);
+		else
+			exitPos.y = allRooms[allRooms.length - 1].y * tileSize + (allRooms[allRooms.length - 1].height * tileSize) / 2;
 		
 		//set enemy positions
 		enemySpawn = new Vector<Point>();
@@ -58,8 +65,10 @@ class MapDistribution
 		var destX = Std.int(room.width) + startX;
 		var destY = Std.int(room.height) + startY;
 		
-		punto.x = cast FlxRandom.intRanged(startX * tileSize,(destX * tileSize - tileSize)) ;
-		punto.y = cast FlxRandom.intRanged(startY * tileSize,(destY * tileSize - tileSize));
+		
+		punto.x = cast FlxRandom.intRanged(startX,destX - 1 ) ;
+		punto.y = cast FlxRandom.intRanged(startY,destY - 1 );
+		
 		return punto;
 	}
 	
