@@ -41,20 +41,25 @@ class MapDistribution
 		exitPos.y = allRooms[allRooms.length - 1].y * tileSize + (allRooms[allRooms.length - 1].height * tileSize - tileSize);
 		
 		//set enemy positions
-		var punto = new Point();
 		enemySpawn = new Vector<Point>();
-		
 		for (room in allRooms)
 		{
-			enemySpawn.push(EnemySpawnPos(room));
+			//para que no spawneen en el primer cuarto
+			if(room != allRooms[0])
+				enemySpawn.push(EnemySpawnPos(room));
 		}
 	}
 	
 	public function EnemySpawnPos(room:Rectangle):Point
 	{
 		var punto:Point = new Point();
-		punto.x = cast FlxRandom.intRanged(1,cast room.width - 1);
-		punto.y = cast FlxRandom.intRanged(1,cast room.height - 1);
+		var startX = Std.int(room.x);
+		var startY = Std.int(room.y);
+		var destX = Std.int(room.width) + startX;
+		var destY = Std.int(room.height) + startY;
+		
+		punto.x = cast FlxRandom.intRanged(startX * tileSize,(destX * tileSize - tileSize)) ;
+		punto.y = cast FlxRandom.intRanged(startY * tileSize,(destY * tileSize - tileSize));
 		return punto;
 	}
 	

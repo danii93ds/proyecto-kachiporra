@@ -8,33 +8,27 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxObject;
 import flixel.util.FlxAngle;
 import flixel.FlxG;
+import flixel.util.FlxPoint;
 
 /**
  * ...
  * @author ...
  */
-enum MoveDirection
-{
-	UP;
-	DOWN;
-	LEFT;
-	RIGHT;
-}
+
  
 class Enemy extends FlxSprite
 {
 	//movement variables
-	private var _posX:Int;
-	private var _posY:Int;
-	
 	public var dijkstra:Dijkstra;
 	public var path:Vector<Node>;
+	public var idle:Bool = true;
+	public var playerPos(default, null):FlxPoint;
+	public var seesPlayer:Bool = false;
 	
 	private var MOVEMENT_SPEED:Float = 1;
 	private var moveMap:FlxTilemap;
 	private var TILE_SIZE:Int = 16;
 	public var moveToNextTile:Bool;
-	private var moveDirection:MoveDirection;
 	#if mobile
 	private var _virtualPad:FlxVirtualPad;
 	#end
@@ -88,6 +82,10 @@ class Enemy extends FlxSprite
 		moveMap = new FlxTilemap();
 		moveMap = _mWalls;
 		
+		
+		playerPos = FlxPoint.get();
+		
+		
 		//Health
 		_currentHealth = 100;
 		_Health = 100;
@@ -112,10 +110,92 @@ class Enemy extends FlxSprite
 		_status = new List<Status>();
 	}
 	
-	public function Movement(path:Vector<Node>)
+	public function MovementIdle()
 	{
+		if (seesPlayer)
+		{
+			idle = false;
+		}
+	}
+	
+	public function MovementChase(path:Vector<Node>)
+	{
+		var posToGo:FlxPoint = new FlxPoint();
+		
+		if (!seesPlayer)
+		{
+			idle = true;
+		}
+		
+		if (moveToNextTile)
+		{
+			
+					if (moveUp == true)
+					{
+						y -= MOVEMENT_SPEED;
+						animation.play("u");
+					}
+					if (moveDown == true)
+					{
+						y += MOVEMENT_SPEED;
+						animation.play("d");
+					}
+					if (moveLeft == true)
+					{
+						x -= MOVEMENT_SPEED;
+						facing = FlxObject.LEFT;
+						animation.play("lr");
+					}
+					if (moveRight == true)
+					{
+						x += MOVEMENT_SPEED;
+						facing = FlxObject.RIGHT;
+						animation.play("lr");
+					}
+					
+					switch(facing)
+					{
+						case FlxObject.LEFT, FlxObject.RIGHT:
+							animation.play("lr");
+						case FlxObject.UP:
+							animation.play("u");
+						case FlxObject.DOWN:
+							animation.play("d");
+					}
+			
+		}
+		
+		// Check if the player has now reached the next block
+		if ((x % TILE_SIZE == 0) && (y % TILE_SIZE == 0))
+		{
+			moveToNextTile = false;
+			//collision on each direction
+			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
+				moveUp = false;
+			else
+				moveUp = true;
+			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) == 2)
+				moveDown = false;
+			else
+				moveDown = true;
+			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) == 2)
+				moveLeft = false;
+			else
+				moveLeft = true;
+			if (moveMap.getTile(Math.round(x / TILE_SIZE) + 1, Math.round(y / TILE_SIZE)) == 2)
+				moveRight = false;
+			else
+				moveRight = true;
+		}
+		
+		for (i in path.length...0)
+		{
+		}
 		
 	}
+
+	
+	
 		
 	public function setStatus(statusName:String):Void {
 		var found:Bool = false;
@@ -173,4 +253,9 @@ class Enemy extends FlxSprite
 		return FlxRandom.intRanged(cast _gunDamageMin,cast _gunDamageMax);
 	}
 		
+	override public function update():Void 
+	{
+		
+		super.update();
+	}
 }

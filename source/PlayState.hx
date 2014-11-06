@@ -5,6 +5,7 @@ import flash.display.BitmapData;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxAngle;
@@ -45,7 +46,7 @@ class PlayState extends FlxState
 	private var _player:Player;
 	private var _playerSet:Bool = false;
 	//ENEMY VARIABLES
-	public var _enemySpear:Array<Enemy>;
+	public var _enemySpear:FlxTypedGroup<Enemy>;
 	public var enemy:Enemy;
 	
 	
@@ -82,17 +83,11 @@ class PlayState extends FlxState
 		add(_player);
 		
 		//ENEMY
-		enemy = new Enemy(mapDistr.exitPos.x, mapDistr.exitPos.y, _mWalls);
-		add(enemy);
-		/*
-		var i:Int = 0;
-		_enemySpear = new Array<Enemy>();
+		_enemySpear = new FlxTypedGroup();
+		add(_enemySpear);
 		for (pos in mapDistr.enemySpawn)
-		{
-			_enemySpear[i] = new Enemy(pos.x, pos.y,_mWalls);
-			i++;
-		}
-		*/
+			_enemySpear.add(new Enemy(pos.x , pos.y , _mWalls));
+		
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
 		FlxG.camera.fade(FlxColor.BLACK,1,true);
@@ -104,18 +99,27 @@ class PlayState extends FlxState
 	{
 		super.destroy();
 	}
+	
+	private function CheckEnemyVision(e:Enemy):Void
+	{
+		if (_mWalls.ray(e.getMidpoint(), _player.getMidpoint()))
+		{
+			e.seesPlayer = true;
+			e.playerPos.copyFrom(_player.GetPosistion());
+		}else
+			e.seesPlayer = false;
+	}
 
 	override public function update():Void
 	{
 		super.update();
+		FlxG.collide(_enemySpear, _player);
 		if (FlxG.overlap(_player,exit))
 		{
 			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
 			FlxG.switchState(new PlayState());
 			});
 		}
-			
-
 	}
 	
 	public function DrawDungeon():Void

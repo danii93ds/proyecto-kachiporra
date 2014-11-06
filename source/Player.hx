@@ -19,6 +19,7 @@ import openfl.geom.Point;
 import openfl.Vector;
 import flixel.util.FlxRandom;
 import flixel.tile.FlxTilemap;
+import flixel.util.FlxPoint;
 import items.Item;
 import Status;
 
@@ -402,6 +403,14 @@ class Player extends FlxSprite
 	
 	public function attackRange():Int {
 		return FlxRandom.intRanged(cast _Gun.MinDamage(),cast _Gun.MaxDamage());
+	}
+	
+	public function GetPosistion():FlxPoint
+	{
+		var pos:FlxPoint = new FlxPoint(0, 0);
+		pos.x = this.x;
+		pos.y = this.y;
+		return pos;
 	}
 	
 	override public function update():Void 
