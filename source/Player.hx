@@ -5,6 +5,7 @@ package ;
  * @author nachotorres
  */
 import flixel.FlxSprite;
+import flixel.group.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
@@ -49,7 +50,7 @@ class Player extends FlxSprite
 	public var moveDown:Bool;
 	public var moveLeft:Bool;
 	public var moveRight:Bool;
-	
+	public var _enemies:FlxTypedGroup<Enemy>;
 	
 	
 	//Health  5 per level
@@ -93,7 +94,7 @@ class Player extends FlxSprite
 	private var _Kachis:UInt;
 	
 	
-	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
+	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap,enemies:FlxTypedGroup<Enemy>) 
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X, Y );
@@ -113,6 +114,8 @@ class Player extends FlxSprite
 		#end
 		moveMap = new FlxTilemap();
 		moveMap = _mWalls;
+		
+		_enemies = enemies;
 		
 		//Health
 		_healthBase = 100;
@@ -195,6 +198,7 @@ class Player extends FlxSprite
 		if ((x % TILE_SIZE == 0) && (y % TILE_SIZE == 0))
 		{
 			moveToNextTile = false;
+			
 			//collision on each direction
 			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
 					moveUp = false;
@@ -212,6 +216,29 @@ class Player extends FlxSprite
 				moveRight = false;
 			else
 				moveRight = true;
+				
+			// checkea que no haya enemigos
+			
+			for (enemy in _enemies)
+			{
+				if (x == enemy.x && y - TILE_SIZE == enemy.y)
+					moveUp = false;
+				else
+					moveUp = true;
+				if (x == enemy.x && y  + TILE_SIZE == enemy.y)
+					moveDown = false;
+				else
+					moveDown = true;
+				if (x - TILE_SIZE == enemy.x && y == enemy.y)
+					moveLeft = false;
+				else
+					moveLeft = true;
+				if (x + TILE_SIZE == enemy.x && y == enemy.y)
+					moveRight = false;
+				else
+					moveRight = true;
+			}
+					
 		}
 		
 		#if mobile

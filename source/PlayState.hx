@@ -75,18 +75,23 @@ class PlayState extends FlxState
 		exit.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
 		add(exit);
 		
-		//PLAYER
-		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls);
-		_player.drag.x = _player.drag.y = 3200;
-		//_player.setSize(8, 14);
-		_player.offset.set(0, 0);
-		add(_player);
 		
 		//ENEMY
 		_enemySpear = new FlxTypedGroup();
 		add(_enemySpear);
 		for (pos in mapDistr.enemySpawn)
 			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, _mWalls));
+		
+		
+		
+		//PLAYER
+		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls,_enemySpear);
+		_player.drag.x = _player.drag.y = 3200;
+		//_player.setSize(8, 14);
+		_player.offset.set(0, 0);
+		add(_player);
+		
+		
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
 		FlxG.camera.fade(FlxColor.BLACK,1,true);
@@ -112,7 +117,6 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
-		FlxG.collide(_enemySpear, _player);
 		if (FlxG.overlap(_player,exit))
 		{
 			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
