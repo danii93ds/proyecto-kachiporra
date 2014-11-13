@@ -4,6 +4,7 @@ package ;
  * ...
  * @author nachotorres
  */
+import flixel.addons.tile.FlxRayCastTilemap;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
@@ -24,16 +25,8 @@ import flixel.util.FlxPoint;
 import flixel.FlxObject;
 import items.Item;
 import enemy.Enemy;
+import Helper;
 import Status;
-
-
-enum MoveDirection
-{
-	UP;
-	DOWN;
-	LEFT;
-	RIGHT;
-}
  
 class Player extends FlxSprite
 {
@@ -51,6 +44,7 @@ class Player extends FlxSprite
 	public var moveLeft:Bool;
 	public var moveRight:Bool;
 	public var _enemies:FlxTypedGroup<Enemy>;
+	
 	
 	
 	//Health  5 per level
@@ -100,8 +94,10 @@ class Player extends FlxSprite
 		super(X, Y );
 		loadGraphic(AssetPaths.titpitoHaxe__png, true, 16, 16);
 		
-		setFacingFlip(FlxObject.LEFT, false, false);
+		setFacingFlip(FlxObject.LEFT, false, false);  
 		setFacingFlip(FlxObject.RIGHT, true, false);
+		
+		// facing solo para sprite derecha o isquierda
 		
 		animation.add("lr", [3, 4, 3, 5], 6, false);
 		animation.add("u", [6, 7, 6, 8], 6, false);
@@ -156,6 +152,8 @@ class Player extends FlxSprite
 		_Inventory._matrix[0][1].setCount(10);
 		
 		_Kachis = 100;
+		
+		
 	}
 	//CAMBIAR PARA QUE SE MUEVA DE 16 EN 16 (haciendo + no colisiona)
 	private function movement():Void
@@ -294,47 +292,72 @@ class Player extends FlxSprite
 		if (FlxG.mouse.justPressedRight || FlxG.mouse.justPressed)
 		if (!moveToNextTile) 
 		{			
+			var damage:Int = 0;
 			var playerPos:FlxPoint = new FlxPoint(0, 0);
-			var toGoPos:FlxPoint = new FlxPoint(0,0);
-			getMidpoint().copyTo(toGoPos).copyTo(playerPos);
+			var toGoPos:FlxPoint = new FlxPoint(0, 0);
 			
 			
-			if (facing == cast FlxObject.UP ){
-				toGoPos.y = toGoPos.y - 5 * 16;
-				playerPos.y = playerPos.y - 1 * 16;
-				FlxG.log.add("si");
+			toGoPos.x = this.x;
+			toGoPos.y = this.y;
+			playerPos.x = this.x;
+			playerPos.y = this.y;
+			
+			//FlxG.log.add(moveDirection);
+			
+			if (moveDirection == cast MoveDirection.UP ) {
+				if (FlxG.mouse.justPressedRight)
+					toGoPos.y = toGoPos.y - 4 * 16;
+				else
+					toGoPos.y = toGoPos.y - 1 * 16;
+				
+				FlxG.log.add("UP ");
 			}
-			if (facing == cast FlxObject.DOWN){
-				toGoPos.y = toGoPos.y + 5 * 16;
-				playerPos.y = playerPos.y + 1 * 16;
-				FlxG.log.add("si");
+			if (moveDirection == cast MoveDirection.DOWN) {
+				if (FlxG.mouse.justPressedRight)
+					toGoPos.y = toGoPos.y + 4 * 16;
+				else
+					toGoPos.y = toGoPos.y + 1 * 16;
+				
+				FlxG.log.add("DOWN ");
 			}
-			if (facing == cast FlxObject.LEFT){
-				toGoPos.x = toGoPos.x - 5 * 16;
-				playerPos.x = playerPos.x - 1 * 16;
-				FlxG.log.add("si");
+			if (moveDirection == cast MoveDirection.LEFT) {
+				if (FlxG.mouse.justPressedRight)
+					toGoPos.x = toGoPos.x - 4 * 16;
+				else
+					toGoPos.x = toGoPos.x - 1 * 16;
+				
+				FlxG.log.add("LEFT ");
 			}
-			if (facing == cast FlxObject.RIGHT){
-				toGoPos.x = toGoPos.x + 4 * 16;
-				playerPos.x = playerPos.x + 1 * 16;
-				FlxG.log.add("si");
+			if (moveDirection == cast MoveDirection.RIGHT){
+				if (FlxG.mouse.justPressedRight)
+					toGoPos.x = toGoPos.x + 4 * 16;
+				else
+					toGoPos.x = toGoPos.x + 1 * 16;
+				
+				FlxG.log.add("RIGHT ");
 			}
 			
-			var result:FlxPoint = new FlxPoint(0, 0);
-			FlxG.log.add(moveMap.ray(playerPos, toGoPos, result));
-			FlxG.log.add(playerPos.x + "x " + playerPos.y + "y <- playerPos \n");
-			FlxG.log.add(toGoPos.x + "x " + toGoPos.y + "y <- ToGoPos \n");
-			FlxG.log.add(result.x + "x " + result.y + "y <- colide in");
+			//FlxG.log.add(playerPos.x + "x " + playerPos.y + "y <- playerPos \n");
+			//FlxG.log.add(toGoPos.x + "x " + toGoPos.y + "y <- ToGoPos \n");
+			
+			//var collided:Bool = rayCastE.ray(playerPos, toGoPos, result;
+			
+			//if (!collided)
+				//FlxG.log.add(result.x + "x " + result.y + "y <- colide in");
 
 			if (FlxG.mouse.justPressed) {
 				
-				attackMelee();
+				damage = attackMelee();
 				//animation attack melee
 			}
 			if (FlxG.mouse.justPressedRight) {
-				return attackRange();
+				
+				damage = attackRange();
 				//animation attack range
 			}
+			
+			Helper.danyCast(playerPos, toGoPos, damage, _enemies, moveDirection);
+			
 		}
 		
 		return 0;

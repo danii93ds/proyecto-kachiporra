@@ -251,7 +251,11 @@ class Enemy extends FlxSprite
 	public function attackRange():Int {
 		return FlxRandom.intRanged(cast _gunDamageMin,cast _gunDamageMax);
 	}
-		
+	
+	public function getDamage(damage:Int) {
+		_Health -= (damage - Math.round((_Defense) / 3));
+	}
+	
 	override public function update():Void 
 	{
 		
