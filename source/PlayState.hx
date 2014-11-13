@@ -48,7 +48,7 @@ class PlayState extends FlxState
 	//ENEMY VARIABLES
 	public var _enemySpear:FlxTypedGroup<Enemy>;
 	public var enemy:Enemy;
-	
+ 
 	
 	
 	override public function create():Void
@@ -80,14 +80,14 @@ class PlayState extends FlxState
 		_enemySpear = new FlxTypedGroup();
 		add(_enemySpear);
 		for (pos in mapDistr.enemySpawn)
-			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, _mWalls));
+			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, allRooms,_mWalls));
+		
 		
 		
 		
 		//PLAYER
 		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls,_enemySpear);
 		_player.drag.x = _player.drag.y = 3200;
-		//_player.setSize(8, 14);
 		_player.offset.set(0, 0);
 		add(_player);
 		

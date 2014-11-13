@@ -1,6 +1,7 @@
 package enemy ;
 import flash.utils.CompressionAlgorithm;
 import flixel.FlxSprite;
+import openfl.geom.Rectangle;
 import openfl.Vector;
 import Status;
 import flixel.util.FlxRandom;
@@ -26,7 +27,6 @@ class Enemy extends FlxSprite
 	public var seesPlayer:Bool = false;
 	
 	private var MOVEMENT_SPEED:Float = 1;
-	private var moveMap:FlxTilemap;
 	private var TILE_SIZE:Int = 16;
 	public var moveToNextTile:Bool;
 	#if mobile
@@ -36,6 +36,8 @@ class Enemy extends FlxSprite
 	public var moveDown:Bool;
 	public var moveLeft:Bool;
 	public var moveRight:Bool;
+	public var moveMap:FlxTilemap;
+	public var _allRooms:Vector<Rectangle>;
 	
 	//Health
 	private var _currentHealth:Int;
@@ -61,7 +63,7 @@ class Enemy extends FlxSprite
 	//Status	
 	private var _status:List<Status>;
 
-	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
+	public function new(X:Float=0, Y:Float=0,allRooms:Vector<Rectangle>,_mWalls) 
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X , Y );
@@ -79,11 +81,23 @@ class Enemy extends FlxSprite
 		_virtualPad.alpha = 0.5;
 		FlxG.state.add(_virtualPad);
 		#end
-		moveMap = new FlxTilemap();
 		moveMap = _mWalls;
 		
-		playerPos = FlxPoint.get();
 		
+		_allRooms = allRooms;
+		/*
+		for (room in _allRooms)
+		{
+			if (room.contains(x / 16 , y / 16))
+			{
+				dijkstra = new Dijkstra(room, moveMap);
+				FlxG.log.add("banana");
+			}
+		}
+		*/
+		//dijkstra.ChoosePath(moveMap);
+		//path = dijkstra.ChoosePath(moveMap);
+			
 		
 		//Health
 		_currentHealth = 100;
@@ -126,70 +140,7 @@ class Enemy extends FlxSprite
 			idle = true;
 		}
 		
-		if (moveToNextTile)
-		{
-			
-					if (moveUp == true)
-					{
-						y -= MOVEMENT_SPEED;
-						animation.play("u");
-					}
-					if (moveDown == true)
-					{
-						y += MOVEMENT_SPEED;
-						animation.play("d");
-					}
-					if (moveLeft == true)
-					{
-						x -= MOVEMENT_SPEED;
-						facing = FlxObject.LEFT;
-						animation.play("lr");
-					}
-					if (moveRight == true)
-					{
-						x += MOVEMENT_SPEED;
-						facing = FlxObject.RIGHT;
-						animation.play("lr");
-					}
-					
-					switch(facing)
-					{
-						case FlxObject.LEFT, FlxObject.RIGHT:
-							animation.play("lr");
-						case FlxObject.UP:
-							animation.play("u");
-						case FlxObject.DOWN:
-							animation.play("d");
-					}
-			
-		}
 		
-		// Check if the player has now reached the next block
-		if ((x % TILE_SIZE == 0) && (y % TILE_SIZE == 0))
-		{
-			moveToNextTile = false;
-			//collision on each direction
-			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
-				moveUp = false;
-			else
-				moveUp = true;
-			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) == 2)
-				moveDown = false;
-			else
-				moveDown = true;
-			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) == 2)
-				moveLeft = false;
-			else
-				moveLeft = true;
-			if (moveMap.getTile(Math.round(x / TILE_SIZE) + 1, Math.round(y / TILE_SIZE)) == 2)
-				moveRight = false;
-			else
-				moveRight = true;
-		}
-		
-		for (i in path.length...0)
-		{
-		}
 		
 	}
 

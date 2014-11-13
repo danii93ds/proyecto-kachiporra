@@ -44,7 +44,10 @@ class Player extends FlxSprite
 	public var moveLeft:Bool;
 	public var moveRight:Bool;
 	public var _enemies:FlxTypedGroup<Enemy>;
-	
+	public var areEnemiesUp:Bool = false;
+	public var areEnemiesDown:Bool = false;
+	public var areEnemiesLeft:Bool = false;
+	public var areEnemiesRight:Bool = false;
 	
 	
 	//Health  5 per level
@@ -112,7 +115,7 @@ class Player extends FlxSprite
 		moveMap = _mWalls;
 		
 		_enemies = enemies;
-		
+	
 		//Health
 		_healthBase = 100;
 		_currentHealth = 100;
@@ -164,26 +167,26 @@ class Player extends FlxSprite
 			switch (moveDirection)
 			{
 				case UP:
-					if (moveUp == true)
+					if (moveUp == true && areEnemiesUp != true)
 					{
 						y -= MOVEMENT_SPEED;
 						animation.play("u");
 					}
 				case DOWN:
-					if (moveDown == true)
+					if (moveDown == true && areEnemiesDown != true)
 					{
 						y += MOVEMENT_SPEED;
 						animation.play("d");
 					}
 				case LEFT:
-					if (moveLeft == true)
+					if (moveLeft == true && areEnemiesLeft != true)
 					{
 						x -= MOVEMENT_SPEED;
 						facing = FlxObject.LEFT;
 						animation.play("lr");
 					}
 				case RIGHT:
-					if (moveRight == true)
+					if (moveRight == true && areEnemiesRight != true)
 					{
 						x += MOVEMENT_SPEED;
 						facing = FlxObject.RIGHT;
@@ -199,11 +202,11 @@ class Player extends FlxSprite
 			
 			//collision on each direction
 			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
-					moveUp = false;
+				moveUp = false;
 			else
 				moveUp = true;
 			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) == 2)
-					moveDown = false;
+				moveDown = false;
 			else
 				moveDown = true;
 			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) == 2)
@@ -215,28 +218,11 @@ class Player extends FlxSprite
 			else
 				moveRight = true;
 				
-			// checkea que no haya enemigos
+				
+			//se llama aca porque se sabe que esta en el centro del tile
+			areEnemiesUp = areEnemiesDown = areEnemiesLeft = areEnemiesRight = false;
+			UnitCollision();
 			
-			for (enemy in _enemies)
-			{
-				if (x == enemy.x && y - TILE_SIZE == enemy.y)
-					moveUp = false;
-				else
-					moveUp = true;
-				if (x == enemy.x && y  + TILE_SIZE == enemy.y)
-					moveDown = false;
-				else
-					moveDown = true;
-				if (x - TILE_SIZE == enemy.x && y == enemy.y)
-					moveLeft = false;
-				else
-					moveLeft = true;
-				if (x + TILE_SIZE == enemy.x && y == enemy.y)
-					moveRight = false;
-				else
-					moveRight = true;
-			}
-					
 		}
 		
 		#if mobile
@@ -286,6 +272,30 @@ class Player extends FlxSprite
 			moveToNextTile = true;
 		}
 	}
+	
+	public function UnitCollision()
+	{	
+		for (enemy in _enemies)
+		{
+			if (x == enemy.x && y == enemy.y + TILE_SIZE)
+			{
+				areEnemiesUp = true;
+			}
+			if (x == enemy.x && y == enemy.y - TILE_SIZE)
+			{
+				areEnemiesDown = true;
+			}
+			if (x == enemy.x + TILE_SIZE && y == enemy.y)
+			{
+				areEnemiesLeft = true;
+			}
+			if (x == enemy.x - TILE_SIZE && y == enemy.y)
+			{
+				areEnemiesRight = true;
+			}
+		}
+	}
+	
 	
 	public function attackCommand():Int {
 		 
@@ -362,6 +372,7 @@ class Player extends FlxSprite
 		
 		return 0;
 	}
+	
 	
 	override public function draw():Void 
 	{
