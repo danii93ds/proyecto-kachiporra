@@ -56,18 +56,30 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/data/testLevel.oep", AssetType.TEXT);
 		path.set ("assets/data/tilemap.oep", "assets/data/tilemap.oep");
 		type.set ("assets/data/tilemap.oep", AssetType.TEXT);
+		path.set ("assets/images/BlueDude.png", "assets/images/BlueDude.png");
+		type.set ("assets/images/BlueDude.png", AssetType.IMAGE);
 		path.set ("assets/images/door16x16.png", "assets/images/door16x16.png");
 		type.set ("assets/images/door16x16.png", AssetType.IMAGE);
 		path.set ("assets/images/EnemyAxe.png", "assets/images/EnemyAxe.png");
 		type.set ("assets/images/EnemyAxe.png", AssetType.IMAGE);
 		path.set ("assets/images/EnemySpear.png", "assets/images/EnemySpear.png");
 		type.set ("assets/images/EnemySpear.png", AssetType.IMAGE);
+		path.set ("assets/images/GolemPepe.png", "assets/images/GolemPepe.png");
+		type.set ("assets/images/GolemPepe.png", AssetType.IMAGE);
+		path.set ("assets/images/RedDude.png", "assets/images/RedDude.png");
+		type.set ("assets/images/RedDude.png", AssetType.IMAGE);
 		path.set ("assets/images/Stairs.png", "assets/images/Stairs.png");
 		type.set ("assets/images/Stairs.png", AssetType.IMAGE);
 		path.set ("assets/images/tiles.png", "assets/images/tiles.png");
 		type.set ("assets/images/tiles.png", AssetType.IMAGE);
 		path.set ("assets/images/titpitoHaxe.png", "assets/images/titpitoHaxe.png");
 		type.set ("assets/images/titpitoHaxe.png", AssetType.IMAGE);
+		path.set ("assets/images/ZoneA.png", "assets/images/ZoneA.png");
+		type.set ("assets/images/ZoneA.png", AssetType.IMAGE);
+		path.set ("assets/images/ZoneB.png", "assets/images/ZoneB.png");
+		type.set ("assets/images/ZoneB.png", AssetType.IMAGE);
+		path.set ("assets/images/ZoneC.png", "assets/images/ZoneC.png");
+		type.set ("assets/images/ZoneC.png", AssetType.IMAGE);
 		path.set ("assets/music/music-goes-here.txt", "assets/music/music-goes-here.txt");
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
 		path.set ("assets/sounds/beep.ogg", "assets/sounds/beep.ogg");
@@ -86,6 +98,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
 		useManifest = true;
 		useManifest = true;
 		useManifest = true;
@@ -733,7 +751,19 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
+
+
+
 #elseif html5
+
+
+
+
+
+
 
 
 
