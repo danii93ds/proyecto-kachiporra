@@ -34,12 +34,14 @@ import flixel.util.FlxRandom; //  Kachiporra !!
  */
 class PlayState extends FlxState
 {
+	
 	//MAP VARIABLES
 	private var _map:FlxOgmoLoader;
 	private var _mWalls:FlxTilemap;
 	private var bsp:BSPgenerator;
 	public var allRooms:Vector<Rectangle> = new Vector<Rectangle>();//stores all the rooms
 	public var mapDistr:MapDistribution;
+	public var currentZone:String = "ZoneA"; //  Kachiporra:	por ahora cambiar por ZoneA, ZoneB, ZoneC para ver dif niveles
 	//MAP DISTRIBUTION VARIABLES
 	public var entrance:FlxSprite;
 	public var exit:FlxSprite;
@@ -50,7 +52,6 @@ class PlayState extends FlxState
 	public var _enemySpear:FlxTypedGroup<Enemy>;
 	public var enemy:Enemy;
  
-	public var currentZone:String = "ZoneA"; //  Kachiporra:	por ahora cambiar por ZoneA, ZoneB, ZoneC para ver dif niveles
 	
 	override public function create():Void
 	{
@@ -84,21 +85,23 @@ class PlayState extends FlxState
 		exit.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
 		add(exit);
 		
+		//PLAYER
+		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls);
+		_player.drag.x = _player.drag.y = 3200;
+		_player.offset.set(0, 0);
+		add(_player);
 		
 		//ENEMY
 		_enemySpear = new FlxTypedGroup();
 		add(_enemySpear);
 		for (pos in mapDistr.enemySpawn)
-			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, allRooms,_mWalls));
+			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, allRooms, _mWalls,_player));
+		_player.GetEnemies(_enemySpear);
 		
 		
 		
 		
-		//PLAYER
-		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls,_enemySpear);
-		_player.drag.x = _player.drag.y = 3200;
-		_player.offset.set(0, 0);
-		add(_player);
+		
 		
 		
 		
@@ -113,27 +116,8 @@ class PlayState extends FlxState
 		super.destroy();
 	}
 	
-	private function CheckEnemyVision(e:Enemy):Void
-	{
-		if (_mWalls.ray(e.getMidpoint(), _player.getMidpoint()))
-		{
-			e.seesPlayer = true;
-			e.playerPos.copyFrom(_player.GetPosistion());
-		}else
-			e.seesPlayer = false;
-	}
 
-	override public function update():Void
-	{
-		super.update();
-		if (FlxG.overlap(_player,exit))
-		{
-			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
-			FlxG.switchState(new PlayState());
-			});
-		}
-	}
-	
+
 	
 	
 	public function DrawDungeon():Void
@@ -321,6 +305,16 @@ class PlayState extends FlxState
 		}
 	}
 	
+	override public function update():Void
+	{
+		super.update();
+		if (FlxG.overlap(_player,exit))
+		{
+			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
+			FlxG.switchState(new PlayState());
+			});
+		}
+	}
 	
 	//------------
 	//------------

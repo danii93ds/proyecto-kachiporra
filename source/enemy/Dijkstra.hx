@@ -1,5 +1,6 @@
 package enemy ;
 import flixel.tile.FlxTilemap;
+import flixel.util.FlxPoint;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import flixel.FlxG;
@@ -13,6 +14,7 @@ class Dijkstra
 {
 	public var area:Array<Array<Node>>;
 	public var room:Rectangle;
+	public var moveMap:FlxTilemap;
 	
 	public function new(_room:Rectangle,_mWalls:FlxTilemap) 
 	{
@@ -23,7 +25,6 @@ class Dijkstra
 		var destY = Std.int(room.height) + startY;
 		var heightIndex:Int = 0;
 		var widthIndex:Int = 0;
-		
 		
 		area = {[for (x in 0...cast room.width) [for (y in 0...cast room.height) new Node()]];}
 		
@@ -41,10 +42,6 @@ class Dijkstra
 			heightIndex = 0;
 		}
 			
-
-		ChoosePath(_mWalls);
-		ShowLogValueMap();
-		FlxG.log.add("termine");
 	}
 	
 	
@@ -85,16 +82,34 @@ class Dijkstra
 	}
 	
 	//se llama dentro de set neighbours
-	public function ChoosePath(_mWalls:FlxTilemap):Vector<Node>
+	public function ChoosePath(_mWalls:FlxTilemap,_target:Player,startPos:FlxPoint):Vector<Node>
 	{
 		var target:Node = new Node();
 		var couldPath:Vector<Node> = new Vector<Node>();
 		var realPath:Vector<Node> = new Vector<Node>();
-		target = area[2][3];
+		
+		moveMap = _mWalls;
+		
+		for (array in area)
+		{
+			for (node in array)
+			{	
+				if (node.x == startPos.x && node.y == startPos.y)
+				{
+					FlxG.log.add(startPos.x + " " + startPos.y + " pos");
+					node.nodeSum = 0;
+				}
+				
+				if (node.x == Std.int(_target.x / 16)  && node.y ==Std.int( _target.y / 16) )
+				{
+					FlxG.log.add(Std.int(_target.x / 16) + " " + Std.int( _target.y / 16) + " pos");
+					target = node;
+				}
+			}
+		}
 		var preD:Node = target;
 		
 		//el nodo con el valor mas chico, es decir el que usamos
-		area[1][1].nodeSum = 0;
 		
 		var index:Point = new Point();
 		var i:Int;
@@ -109,7 +124,7 @@ class Dijkstra
 			couldPath.push(area[i][j]);
 			
 			//si derecha no hay pared
-			if (_mWalls.getTile(area[i][j].x - 1,area[i][j].y) != 2)
+			if (_mWalls.getTile(area[i][j].x - 1,area[i][j].y) > 6)
 			{
 			//si se puede ir mas derecha
 				if (i - 1 >= 0)
@@ -127,7 +142,7 @@ class Dijkstra
 			}
 			
 			//si izquierda no hay pared
-			if (_mWalls.getTile(area[i][j].x + 1,area[i][j].y) != 2)
+			if (_mWalls.getTile(area[i][j].x + 1,area[i][j].y) > 6)
 			{
 			//si se puede ir mas izquierda
 				if (i + 1 < room.width)
@@ -145,7 +160,7 @@ class Dijkstra
 			}
 					
 			//si abajo no hay pared
-			if (_mWalls.getTile(area[i][j].x, area[i][j].y + 1) != 2)
+			if (_mWalls.getTile(area[i][j].x, area[i][j].y + 1) > 6)
 			{
 				//si se puede ir mas abajo
 				if (j + 1 < room.height)
@@ -163,7 +178,7 @@ class Dijkstra
 			}
 			
 			//si arriba no hay pared
-			if (_mWalls.getTile(area[i][j].x, area[i][j].y - 1) != 2)
+			if (_mWalls.getTile(area[i][j].x, area[i][j].y - 1) > 6)
 			{
 				//si se puede ir mas arriba
 				if (j - 1 >= 0)
@@ -181,11 +196,10 @@ class Dijkstra
 			}
 			area[i][j].visited = true;
 
-			ShowLogValueMap();
-			FlxG.log.add(" ");
+		
 		}while (!outOfWhile);
 	
-		
+		FlxG.log.add("hola");
 		//guarda el path (esta invertido)
 		realPath.push(target); // empieza desde el target y va para atras
 		do{

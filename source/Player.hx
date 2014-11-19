@@ -30,6 +30,9 @@ import Status;
  
 class Player extends FlxSprite
 {
+	//turn
+	public static var nextTurn:Bool = false;
+
 	//movement variables
 	private var MOVEMENT_SPEED:Float = 1;
 	private var moveMap:FlxTilemap;
@@ -48,7 +51,6 @@ class Player extends FlxSprite
 	public var areEnemiesDown:Bool = false;
 	public var areEnemiesLeft:Bool = false;
 	public var areEnemiesRight:Bool = false;
-	
 	
 	//Health  5 per level
 	private var _healthBase:Int;
@@ -91,7 +93,7 @@ class Player extends FlxSprite
 	private var _Kachis:UInt;
 	
 	
-	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap,enemies:FlxTypedGroup<Enemy>) 
+	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X, Y );
@@ -114,7 +116,7 @@ class Player extends FlxSprite
 		moveMap = new FlxTilemap();
 		moveMap = _mWalls;
 		
-		_enemies = enemies;
+		
 	
 		//Health
 		_healthBase = 100;
@@ -201,19 +203,19 @@ class Player extends FlxSprite
 			moveToNextTile = false;
 			
 			//collision on each direction
-			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) == 2)
+			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) - 1) <= 6)
 				moveUp = false;
 			else
 				moveUp = true;
-			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) == 2)
+			if (moveMap.getTile(Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE) + 1) <= 6)
 				moveDown = false;
 			else
 				moveDown = true;
-			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) == 2)
+			if (moveMap.getTile(Math.round(x / TILE_SIZE) - 1, Math.round(y / TILE_SIZE)) <= 6)
 				moveLeft = false;
 			else
 				moveLeft = true;
-			if (moveMap.getTile(Math.round(x / TILE_SIZE) + 1, Math.round(y / TILE_SIZE)) == 2)
+			if (moveMap.getTile(Math.round(x / TILE_SIZE) + 1, Math.round(y / TILE_SIZE)) <= 6)
 				moveRight = false;
 			else
 				moveRight = true;
@@ -221,7 +223,8 @@ class Player extends FlxSprite
 				
 			//se llama aca porque se sabe que esta en el centro del tile
 			areEnemiesUp = areEnemiesDown = areEnemiesLeft = areEnemiesRight = false;
-			UnitCollision();
+			if (_enemies != null)
+				UnitCollision();
 			
 		}
 		
@@ -296,7 +299,11 @@ class Player extends FlxSprite
 		}
 	}
 	
-	
+	public function GetEnemies(enemies:FlxTypedGroup<Enemy>)
+	{
+		_enemies = enemies;
+		
+	}
 	public function attackCommand():Int {
 		 
 		if (FlxG.mouse.justPressedRight || FlxG.mouse.justPressed)

@@ -21,10 +21,10 @@ class Enemy extends FlxSprite
 {
 	//movement variables
 	public var dijkstra:Dijkstra;
+	public var thisRoom:Rectangle;
 	public var path:Vector<Node>;
 	public var idle:Bool = true;
-	public var playerPos(default, null):FlxPoint;
-	public var seesPlayer:Bool = false;
+	public var player:Player;
 	
 	private var MOVEMENT_SPEED:Float = 1;
 	private var TILE_SIZE:Int = 16;
@@ -63,7 +63,7 @@ class Enemy extends FlxSprite
 	//Status	
 	private var _status:List<Status>;
 
-	public function new(X:Float=0, Y:Float=0,allRooms:Vector<Rectangle>,_mWalls) 
+	public function new(X:Float=0, Y:Float=0,allRooms:Vector<Rectangle>,_mWalls,_player:Player) 
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X , Y );
@@ -83,21 +83,20 @@ class Enemy extends FlxSprite
 		#end
 		moveMap = _mWalls;
 		
-		
+		player = _player;
 		_allRooms = allRooms;
-		/*
+		//inicializa el comportamiento del chobi
 		for (room in _allRooms)
 		{
-			if (room.contains(x / 16 , y / 16))
+			if (room.contains(Std.int(x / 16) ,Std.int(y / 16)))
 			{
-				dijkstra = new Dijkstra(room, moveMap);
-				FlxG.log.add("banana");
+				thisRoom = room;
 			}
 		}
-		*/
-		//dijkstra.ChoosePath(moveMap);
-		//path = dijkstra.ChoosePath(moveMap);
-			
+		if(thisRoom != null)
+			dijkstra = new Dijkstra(thisRoom,moveMap);
+		
+		FlxG.log.add(thisRoom.toString());
 		
 		//Health
 		_currentHealth = 100;
@@ -125,22 +124,20 @@ class Enemy extends FlxSprite
 	
 	public function MovementIdle()
 	{
-		if (seesPlayer)
-		{
-			idle = false;
-		}
+		
 	}
 	
-	public function MovementChase(path:Vector<Node>)
+	public function MovementChase()
 	{
-		var posToGo:FlxPoint = new FlxPoint();
+		var myPos:FlxPoint = new FlxPoint(x / 16, y / 16);
 		
-		if (!seesPlayer)
+		
+		//si el jugador esta en el cuarto cargalo
+		if (thisRoom.contains(player.x / 16, player.y / 16))
 		{
-			idle = true;
+			if(path == null)
+				path = dijkstra.ChoosePath(moveMap, player, myPos);
 		}
-		
-		
 		
 	}
 
@@ -209,6 +206,10 @@ class Enemy extends FlxSprite
 	
 	override public function update():Void 
 	{
+		
+		MovementChase();
+
+		
 		
 		super.update();
 	}
