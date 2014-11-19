@@ -273,6 +273,7 @@ class Player extends FlxSprite
 		{
 			moveDirection = Direction;
 			moveToNextTile = true;
+			
 		}
 	}
 	

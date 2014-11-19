@@ -124,21 +124,29 @@ class Enemy extends FlxSprite
 	
 	public function MovementIdle()
 	{
+		idle = true;
 		
+		if (thisRoom.contains(player.x / 16, player.y / 16))
+		{
+			idle = false;
+		}
+			
 	}
 	
 	public function MovementChase()
 	{
+	
+	
+		FlxG.log.add("che");
 		var myPos:FlxPoint = new FlxPoint(x / 16, y / 16);
 		
-		
-		//si el jugador esta en el cuarto cargalo
-		if (thisRoom.contains(player.x / 16, player.y / 16))
+		if (path == null)
 		{
-			if(path == null)
-				path = dijkstra.ChoosePath(moveMap, player, myPos);
+			path = dijkstra.ChoosePath(moveMap, player, myPos);
+			//se mueve
+			//borra path
+			FlxG.log.add("path");
 		}
-		
 	}
 
 	
@@ -206,10 +214,13 @@ class Enemy extends FlxSprite
 	
 	override public function update():Void 
 	{
+		MovementIdle();
 		
-		MovementChase();
-
-		
+		if (TurnManager.getInstance().turnActivate == true && idle == false )
+		{
+			MovementChase();
+			TurnManager.getInstance().StopTurn();
+		}
 		
 		super.update();
 	}

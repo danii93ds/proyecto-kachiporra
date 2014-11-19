@@ -102,7 +102,7 @@ class Dijkstra
 				
 				if (node.x == Std.int(_target.x / 16)  && node.y ==Std.int( _target.y / 16) )
 				{
-					FlxG.log.add(Std.int(_target.x / 16) + " " + Std.int( _target.y / 16) + " pos");
+					FlxG.log.add(Std.int(_target.x / 16) + " " + Std.int( _target.y / 16) + " target");
 					target = node;
 				}
 			}
