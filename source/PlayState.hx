@@ -86,8 +86,7 @@ class PlayState extends FlxState
 		
 		//PLAYER
 		_player = new Player(mapDistr.playerStartPos.x,mapDistr.playerStartPos.y,_mWalls);
-		_player.drag.x = _player.drag.y = 3200;
-		_player.offset.set(0, 0);
+		_player.immovable = true;
 		add(_player);
 		
 		//ENEMY
@@ -306,13 +305,15 @@ class PlayState extends FlxState
 	
 	override public function update():Void
 	{
-		super.update();
+		FlxG.collide(_player, _enemySpear);
 		if (FlxG.overlap(_player,exit))
 		{
 			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
 			FlxG.switchState(new PlayState());
 			});
 		}
+		
+		super.update();	
 	}
 	
 	//------------

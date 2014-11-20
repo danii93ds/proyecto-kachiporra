@@ -13,7 +13,7 @@ import flixel.FlxG;
 import flixel.util.FlxPoint;
 import items.Item;
 import items.food.ingredients.RawMeat;
-
+import flixel.tweens.FlxTween;
 /**
  * ...
  * @author ...
@@ -142,19 +142,41 @@ class Enemy extends FlxSprite
 	
 	public function MovementChase()
 	{		
+
 		var myPos:FlxPoint = new FlxPoint(Std.int(x / TILE_SIZE), Std.int( y / TILE_SIZE));
 		
 		if(path == null)
 			path = dijkstra.ChoosePath(moveMap, player, myPos);
 		
-		//hacerlo smooth
-		x = path[1].x * TILE_SIZE;
-		y = path[1].y * TILE_SIZE;
-	
-		
+			
+			
+		if ((player.x % TILE_SIZE) == 0 && (player.y % TILE_SIZE) == 0)	
+		{
+			var tempX:Int = Std.int(path[1].x * 16);
+			var tempY:Int = Std.int(path[1].y * 16);
+			FlxG.log.add(tempX + " " + tempY);
+			
+			var tween:FlxTween = FlxTween.tween(this, { x:tempX , y:tempY }, 0.2);
+			
+			if (tempX == this.x && tempY >= this.y)
+				animation.play("d");
+			if (tempX == this.x && tempY <= this.y)
+				animation.play("u");
+			if (tempX >= this.x && tempY == this.y)
+			{
+				facing = FlxObject.RIGHT;
+				animation.play("lr");
+			}
+			if (tempX <= this.x && tempY == this.y)
+			{
+				facing = FlxObject.LEFT;
+				animation.play("lr");
+			}
+			
+		}
+
 		storedPlayPos.x = currentPlayPos.x;
 		storedPlayPos.y = currentPlayPos.y;
-		
 		path = null;
 	}
 
