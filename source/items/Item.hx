@@ -1,10 +1,11 @@
 package items ;
+import flixel.FlxSprite;
 
 /**
  * ...
  * @author ...
  */
-class Item
+class Item extends FlxSprite
 {
 	//Type
 	private var _itemName:String;
@@ -21,7 +22,7 @@ class Item
 	
 	public function new() 
 	{
-		
+		super(0,0);
 	}
 	
 	public function ItemNameGet()

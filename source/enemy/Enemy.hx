@@ -1,6 +1,7 @@
 package enemy ;
 import flash.utils.CompressionAlgorithm;
 import flixel.FlxSprite;
+import items.Gold;
 import openfl.geom.Rectangle;
 import openfl.Vector;
 import Status;
@@ -10,6 +11,8 @@ import flixel.FlxObject;
 import flixel.util.FlxAngle;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
+import items.Item;
+import items.food.ingredients.RawMeat;
 
 /**
  * ...
@@ -62,6 +65,10 @@ class Enemy extends FlxSprite
 	
 	//Status	
 	private var _status:List<Status>;
+	
+	//Experience
+	private var _Exp:Int;
+	private var _Level:Int;
 
 	public function new(X:Float=0, Y:Float=0,allRooms:Vector<Rectangle>,_mWalls,_player:Player) 
 	{
@@ -75,6 +82,9 @@ class Enemy extends FlxSprite
 		animation.add("lr", [3, 4, 3, 5], 6, false);
 		animation.add("u", [6, 7, 6, 8], 6, false);
 		animation.add("d", [0, 1, 0, 2], 6, false);
+		
+		_Level = _player.getLevel();
+		_Exp = 100 * _Level;
 		
 		#if mobile
 		_virtualPad = new FlxVirtualPad(FULL, NONE);
@@ -102,25 +112,25 @@ class Enemy extends FlxSprite
 		
 		
 		//Health
-		_currentHealth = 100;
-		_Health = 100;
+		_currentHealth = 20  + (5 * _Level);
+		_Health = 20 + (5 * _Level);
 	
 		//Strength
-		_Strength = 5;
+		_Strength = 5 + cast (1 * _Level);
 		
 		//Defense
-		_Defense = 5;
+		_Defense = 5 + cast (1 * _Level);
 		
 		//Dexterity
-		_Dexterity = 5;
+		_Dexterity = 5 + cast (1 * _Level);
 		
 		//Damage
-		_swordDamageMin = 2;
-		_swordDamageMax = 5;
+		_swordDamageMin = 2 + (2 * _Level);
+		_swordDamageMax = 5 + (4 * _Level);
 		//SwordDamageMultiplier Min = 0.8 Max = 1.2
 	
-		_gunDamageMin = 4;
-		_gunDamageMax = 7;
+		_gunDamageMin = 4 + (2* _Level);
+		_gunDamageMax = 7 + (4 * _Level);
 		
 		_status = new List<Status>();
 	}
@@ -148,8 +158,9 @@ class Enemy extends FlxSprite
 		path = null;
 	}
 
-	
-	
+	public function getDamage(damage:Int) {
+		_currentHealth -= (damage - Math.round((_Defense) / 3));
+	}
 		
 	public function setStatus(statusName:String):Void {
 		var found:Bool = false;
@@ -166,7 +177,6 @@ class Enemy extends FlxSprite
 			
 			_status.push(newStatus);
 		}
-
 	}
 	
 	public function cureStatus(statusName:String):Void {
@@ -207,8 +217,46 @@ class Enemy extends FlxSprite
 		return FlxRandom.intRanged(cast _gunDamageMin,cast _gunDamageMax);
 	}
 	
-	public function getDamage(damage:Int) {
-		_Health -= (damage - Math.round((_Defense) / 3));
+	private function dropItem():Item {
+		if (FlxRandom.intRanged(0,3) != 5)
+			return new RawMeat();
+		return null;
+	}
+	
+	private function dropGold():Item {
+		if (FlxRandom.intRanged(0, 3) != 1){
+			return new Gold(FlxRandom.intRanged((_Level - 1) * 5 == 0 ? 1 : (_Level - 1) * 5, 5 * _Level)); 
+		}
+		return null;
+	}
+	
+	
+	public function Die(player:Player, pS:PlayState ) {
+		if (_currentHealth <= 0) {
+			player.setExp(_Exp);
+			FlxG.log.add(_Exp + " experience gained");
+			var drop:Item = null;
+			if (FlxRandom.intRanged(0,1) == 0){
+				drop = dropItem();
+				if (drop != null)
+					drop.loadGraphic(AssetPaths.Food__png, false, 16, 16);
+			}
+			else{
+				drop = dropGold();
+				if (drop != null)
+					drop.loadGraphic(AssetPaths.Gold__png, false, 16, 16);
+			}			
+			FlxG.log.add(drop);
+			if (drop != null){
+				drop.x = this.x;
+				drop.y = this.y;
+				pS.add(drop);
+			}
+			
+			player._enemies.remove(this);
+			kill();
+			destroy();
+		}
 	}
 	
 	override public function update():Void 

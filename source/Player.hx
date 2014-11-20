@@ -91,12 +91,17 @@ class Player extends FlxSprite
 	private var _Inventory:Inventory;
 	private var _Kachis:UInt;
 	
+	//Experience
+	private var _Experience:Int;
+	private var _ExpToNextLevel:Int;
+	private var _Level:Int;
+	
 	
 	public function new(X:Float=0, Y:Float=0,_mWalls:FlxTilemap) 
 	{
 		//posiciones que le manda para que aparezca el personaje
 		super(X, Y );
-		loadGraphic(AssetPaths.titpitoHaxe__png, true, 16, 16);
+		loadGraphic(AssetPaths.Player__png, true, 16, 16);
 		
 		setFacingFlip(FlxObject.LEFT, false, false);  
 		setFacingFlip(FlxObject.RIGHT, true, false);
@@ -115,6 +120,10 @@ class Player extends FlxSprite
 		moveMap = new FlxTilemap();
 		moveMap = _mWalls;
 		
+		//Experience
+		_Experience = 0;
+		_ExpToNextLevel = 500;
+		_Level = 1;
 		
 	
 		//Health
@@ -156,6 +165,11 @@ class Player extends FlxSprite
 		_Inventory._matrix[0][1].setCount(10);
 		
 		_Kachis = 100;
+		
+		//Experience
+		_Experience = 0;
+		_ExpToNextLevel = 500;
+		_Level = 1;
 		
 		
 	}
@@ -329,31 +343,24 @@ class Player extends FlxSprite
 				else
 					toGoPos.y = toGoPos.y - 1 * 16;
 				
-				FlxG.log.add("UP ");
 			}
 			if (moveDirection == cast MoveDirection.DOWN) {
 				if (FlxG.mouse.justPressedRight)
 					toGoPos.y = toGoPos.y + 4 * 16;
 				else
 					toGoPos.y = toGoPos.y + 1 * 16;
-				
-				FlxG.log.add("DOWN ");
 			}
 			if (moveDirection == cast MoveDirection.LEFT) {
 				if (FlxG.mouse.justPressedRight)
 					toGoPos.x = toGoPos.x - 4 * 16;
 				else
 					toGoPos.x = toGoPos.x - 1 * 16;
-				
-				FlxG.log.add("LEFT ");
 			}
 			if (moveDirection == cast MoveDirection.RIGHT){
 				if (FlxG.mouse.justPressedRight)
 					toGoPos.x = toGoPos.x + 4 * 16;
 				else
 					toGoPos.x = toGoPos.x + 1 * 16;
-				
-				FlxG.log.add("RIGHT ");
 			}
 			
 			//FlxG.log.add(playerPos.x + "x " + playerPos.y + "y <- playerPos \n");
@@ -375,7 +382,7 @@ class Player extends FlxSprite
 				//animation attack range
 			}
 			
-			Helper.danyCast(playerPos, toGoPos, damage, _enemies, moveDirection);
+			Helper.danyCast(this,playerPos, toGoPos, damage, _enemies, moveDirection);
 			
 		}
 		
@@ -422,10 +429,14 @@ class Player extends FlxSprite
 		}
 	}
 	
-	public function LevelUp(stat:String)
+	public function LevelUp() //stat:string
 	{
-		AddStat(stat);
+		AddStat("Strenght");
+		AddStat("Defense");
+		AddStat("Dexterity");
 		AddMaxLife(_HealthXLevel);
+		_ExpToNextLevel += 500 * _Level;
+		_Level++;
 	}
 	
 	public function calculateFear():Void 
@@ -537,6 +548,20 @@ class Player extends FlxSprite
 	
 	public function getDamage(damage:Int) {
 		_currentHealth -= (damage - Math.round((_Defense + _Armor.Defense()) / 3));
+	}
+	
+	public function getLevel():Int {
+		return _Level;
+	}
+	
+	public function setExp(exp:Int) {
+		_Experience += exp;
+		if (_Experience >= _ExpToNextLevel) {
+			_Experience -= _ExpToNextLevel;
+			LevelUp();
+			FlxG.log.add("Level Up");
+		}
+			
 	}
 	
 	override public function update():Void 

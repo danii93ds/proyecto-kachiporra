@@ -51,11 +51,10 @@ class PlayState extends FlxState
 	//ENEMY VARIABLES
 	public var _enemySpear:FlxTypedGroup<Enemy>;
 	public var enemy:Enemy;
- 
 	
 	override public function create():Void
 	{
-		
+		Helper.setPlayState(this);
 		
 		//SETEO, DIBUJADO DEL MAPA
 		_map = new FlxOgmoLoader("assets/data/basic.oel");
@@ -79,7 +78,7 @@ class PlayState extends FlxState
 		//DISTRIBUCION DEL MAPA
 		mapDistr = new MapDistribution(allRooms);
 		entrance = new FlxSprite(mapDistr.entrancePos.x, mapDistr.entrancePos.y);
-		entrance.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
+		entrance.loadGraphic(AssetPaths.StairsUp__png, true, 16, 16);
 		add(entrance);
 		exit = new FlxSprite(mapDistr.exitPos.x, mapDistr.exitPos.y);
 		exit.loadGraphic(AssetPaths.Stairs__png, true, 16, 16);
@@ -195,7 +194,7 @@ class PlayState extends FlxState
 		}
 		if (currentZone == "ZoneB")
 		{
-			_mWalls = _map.loadTilemap("assets/images/ZoneB.png", 16, 16, "walls");
+			_mWalls = _map.loadTilemap("assets/images/ZoneBver2.png", 16, 16, "walls");
 			_mWalls.setTileProperties(0, FlxObject.NONE);	//Empty Tile
 			_mWalls.setTileProperties(1, FlxObject.NONE);	//Wall
 			_mWalls.setTileProperties(2, FlxObject.NONE);
@@ -213,7 +212,7 @@ class PlayState extends FlxState
 		}
 		if (currentZone == "ZoneC")
 		{
-			_mWalls = _map.loadTilemap("assets/images/ZoneC.png", 16, 16, "walls");
+			_mWalls = _map.loadTilemap("assets/images/ZoneCver2.png", 16, 16, "walls");
 			_mWalls.setTileProperties(0, FlxObject.NONE);	//Empty Tile
 			_mWalls.setTileProperties(1, FlxObject.NONE);	//Wall
 			_mWalls.setTileProperties(2, FlxObject.NONE);
