@@ -273,6 +273,7 @@ class Enemy extends FlxSprite
 				drop.x = this.x;
 				drop.y = this.y;
 				pS.add(drop);
+				pS.pushItem(drop);
 			}
 			
 			player._enemies.remove(this);

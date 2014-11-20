@@ -88,7 +88,7 @@ class Player extends FlxSprite
 	private var _status:List<Status>;
 	
 	//Inventory
-	private var _Inventory:Inventory;
+	public var _Inventory:Inventory;
 	private var _Kachis:UInt;
 	
 	//Experience
@@ -277,6 +277,10 @@ class Player extends FlxSprite
 			moveTo(MoveDirection.RIGHT);
 		}
 		#end
+	}
+	
+	public function addKachis(cant:Int) {
+		_Kachis += cant;
 	}
 	
 	public function moveTo(Direction:MoveDirection):Void
@@ -554,6 +558,10 @@ class Player extends FlxSprite
 		return _Level;
 	}
 	
+	public function getHealthText():String {
+		return "Health: " + _currentHealth + " / " + _Health;
+	}
+	
 	public function setExp(exp:Int) {
 		_Experience += exp;
 		if (_Experience >= _ExpToNextLevel) {
@@ -561,7 +569,6 @@ class Player extends FlxSprite
 			LevelUp();
 			FlxG.log.add("Level Up");
 		}
-			
 	}
 	
 	override public function update():Void 

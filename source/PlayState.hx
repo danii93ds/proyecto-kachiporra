@@ -26,6 +26,7 @@ import map.BSPgenerator;
 import map.MapDistribution;
 import haxe.Timer;
 import flixel.util.FlxColor;
+import items.Item;
 import enemy.Enemy;
 
 import flixel.util.FlxRandom; //  Kachiporra !!
@@ -45,12 +46,19 @@ class PlayState extends FlxState
 	//MAP DISTRIBUTION VARIABLES
 	public var entrance:FlxSprite;
 	public var exit:FlxSprite;
+	
 	//PLAYER VARIABLES
 	private var _player:Player;
 	private var _playerSet:Bool = false;
+	private var InventarioSprite:FlxSprite;
+	private var _playerHealthText:FlxText;
+	
 	//ENEMY VARIABLES
 	public var _enemySpear:FlxTypedGroup<Enemy>;
 	public var enemy:Enemy;
+	
+	//ITEMS IN MAP
+	private var _items:Vector<Item>;
 	
 	override public function create():Void
 	{
@@ -69,6 +77,7 @@ class PlayState extends FlxState
 		
 		LoadTileMap(_map);		//  Kachiporra:		Carga los Tiles, segun el currentZone
 		
+		_items = new Vector<Item>();
 		
 		add(_mWalls);
 		bsp = new BSPgenerator();
@@ -95,16 +104,22 @@ class PlayState extends FlxState
 		for (pos in mapDistr.enemySpawn)
 			_enemySpear.add(new Enemy(pos.x * 16 , pos.y  * 16, allRooms, _mWalls,_player));
 		_player.GetEnemies(_enemySpear);
+	
 		
+		InventarioSprite = new FlxSprite(0, 0);
+		InventarioSprite.x = FlxG.camera.x;
+		InventarioSprite.y = FlxG.camera.y;
+		InventarioSprite.loadGraphic(AssetPaths.Inventario__png, false, 244, 168);
+		InventarioSprite.alpha = -1;
+		InventarioSprite.setGraphicSize(244, 168);
+		add(InventarioSprite);
 		
-		
-		
-		
-		
-		
+		_playerHealthText = new FlxText(16, 2, 0, _player.getHealthText() , 8);
+		_playerHealthText.setBorderStyle(FlxText.BORDER_SHADOW, FlxColor.GRAY, 1, 1);
+		add(_playerHealthText);
 		
 		FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);	
-		FlxG.camera.fade(FlxColor.BLACK,1,true);
+		FlxG.camera.fade(FlxColor.BLACK, 1, true);
 		super.create();
 	}
 	
@@ -115,8 +130,9 @@ class PlayState extends FlxState
 	}
 	
 
-
-	
+	public function pushItem(item:Item) {
+		_items.push(item);
+	}
 	
 	public function DrawDungeon():Void
 	{
@@ -303,6 +319,25 @@ class PlayState extends FlxState
 		}
 	}
 	
+	private function updateHealthText() {
+		_playerHealthText.text = _player.getHealthText();
+		_playerHealthText.x = FlxG.camera.x + 16;
+		_playerHealthText.y = FlxG.camera.y + 16;
+	}
+		
+	public function MostrarInventario() {
+		
+		if (InventarioSprite.alpha == -1){
+			InventarioSprite.alpha = 1;
+			//FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);
+		}
+		else {
+			InventarioSprite.alpha = -1;
+			//FlxG.camera.follow(InventarioSprite, FlxCamera.STYLE_TOPDOWN_TIGHT, 1);
+			
+		}
+	}
+	
 	override public function update():Void
 	{
 		FlxG.collide(_player, _enemySpear);
@@ -311,6 +346,22 @@ class PlayState extends FlxState
 			FlxG.camera.fade(FlxColor.BLACK,.33, false,function() {
 			FlxG.switchState(new PlayState());
 			});
+		}
+		//updateHealthText();
+		if (FlxG.keys.anyJustPressed(["I"])) {
+			MostrarInventario();
+		}
+
+		var asda:Bool = false;
+		if (_items != null){
+			for (item in _items) {
+				if (item.x == _player.x && item.y == _player.y) {
+					//if (item.ItemNameGet() == "Kachis")
+					asda = true;
+					//_player._Inventory.
+					item.kill();
+				}
+			}
 		}
 		
 		super.update();	
