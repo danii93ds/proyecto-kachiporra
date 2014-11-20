@@ -80,6 +80,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/images/ZoneB.png", AssetType.IMAGE);
 		className.set ("assets/images/ZoneC.png", __ASSET__assets_images_zonec_png);
 		type.set ("assets/images/ZoneC.png", AssetType.IMAGE);
+		className.set ("assets/music/dungeonsongKachi.mp3", __ASSET__assets_music_dungeonsongkachi_mp3);
+		type.set ("assets/music/dungeonsongKachi.mp3", AssetType.MUSIC);
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
 		className.set ("assets/sounds/beep.mp3", __ASSET__assets_sounds_beep_mp3);
@@ -142,6 +144,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		id = "assets/images/ZoneC.png";
 		path.set (id, id);
 		type.set (id, AssetType.IMAGE);
+		id = "assets/music/dungeonsongKachi.mp3";
+		path.set (id, id);
+		type.set (id, AssetType.MUSIC);
 		id = "assets/music/music-goes-here.txt";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
@@ -209,6 +214,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/images/ZoneC.png", __ASSET__assets_images_zonec_png);
 		type.set ("assets/images/ZoneC.png", AssetType.IMAGE);
+		
+		className.set ("assets/music/dungeonsongKachi.mp3", __ASSET__assets_music_dungeonsongkachi_mp3);
+		type.set ("assets/music/dungeonsongKachi.mp3", AssetType.MUSIC);
 		
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
@@ -852,12 +860,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep class __ASSET__assets_images_zonea_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_images_zoneb_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep class __ASSET__assets_images_zonec_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep class __ASSET__assets_music_dungeonsongkachi_mp3 extends openfl.media.Sound { }
 @:keep class __ASSET__assets_music_music_goes_here_txt extends openfl.utils.ByteArray { }
 @:keep class __ASSET__assets_sounds_beep_mp3 extends openfl.media.Sound { }
 @:keep class __ASSET__assets_sounds_flixel_mp3 extends openfl.media.Sound { }
 
 
 #elseif html5
+
 
 
 
@@ -901,6 +911,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:bitmap("assets/images/ZoneA.png") class __ASSET__assets_images_zonea_png extends flash.display.BitmapData {}
 @:bitmap("assets/images/ZoneB.png") class __ASSET__assets_images_zoneb_png extends flash.display.BitmapData {}
 @:bitmap("assets/images/ZoneC.png") class __ASSET__assets_images_zonec_png extends flash.display.BitmapData {}
+@:sound("assets/music/dungeonsongKachi.mp3") class __ASSET__assets_music_dungeonsongkachi_mp3 extends flash.media.Sound {}
 @:file("assets/music/music-goes-here.txt") class __ASSET__assets_music_music_goes_here_txt extends flash.utils.ByteArray {}
 @:sound("C:/HaxeToolkit/haxe/lib/flixel/3,3,5/assets/sounds/beep.mp3") class __ASSET__assets_sounds_beep_mp3 extends flash.media.Sound {}
 @:sound("C:/HaxeToolkit/haxe/lib/flixel/3,3,5/assets/sounds/flixel.mp3") class __ASSET__assets_sounds_flixel_mp3 extends flash.media.Sound {}

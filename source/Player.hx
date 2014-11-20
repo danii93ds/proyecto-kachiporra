@@ -30,8 +30,7 @@ import Status;
  
 class Player extends FlxSprite
 {
-	//turn
-	public static var nextTurn:Bool = false;
+	
 
 	//movement variables
 	private var MOVEMENT_SPEED:Float = 1;
@@ -275,6 +274,8 @@ class Player extends FlxSprite
 			moveToNextTile = true;
 			
 		}
+		
+
 	}
 	
 	public function UnitCollision()
@@ -539,9 +540,9 @@ class Player extends FlxSprite
 	}
 	
 	override public function update():Void 
-	{
-		super.update();
+	{	
 		movement();
 		attackCommand();
+		super.update();
 	}
 }

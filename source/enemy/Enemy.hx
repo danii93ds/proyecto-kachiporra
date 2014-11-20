@@ -22,11 +22,11 @@ class Enemy extends FlxSprite
 	//movement variables
 	public var dijkstra:Dijkstra;
 	public var thisRoom:Rectangle;
-	public var path:Vector<Node>;
-	public var idle:Bool = true;
 	public var player:Player;
-	
+	public var currentPlayPos:FlxPoint;
+	public var storedPlayPos:FlxPoint;
 	private var MOVEMENT_SPEED:Float = 1;
+	public var path:Vector<Node>;
 	private var TILE_SIZE:Int = 16;
 	public var moveToNextTile:Bool;
 	#if mobile
@@ -84,6 +84,9 @@ class Enemy extends FlxSprite
 		moveMap = _mWalls;
 		
 		player = _player;
+		currentPlayPos = new FlxPoint();
+		storedPlayPos = new FlxPoint();
+		
 		_allRooms = allRooms;
 		//inicializa el comportamiento del chobi
 		for (room in _allRooms)
@@ -94,9 +97,9 @@ class Enemy extends FlxSprite
 			}
 		}
 		if(thisRoom != null)
-			dijkstra = new Dijkstra(thisRoom,moveMap);
+			dijkstra = new Dijkstra(thisRoom);
 		
-		FlxG.log.add(thisRoom.toString());
+		
 		
 		//Health
 		_currentHealth = 100;
@@ -124,29 +127,25 @@ class Enemy extends FlxSprite
 	
 	public function MovementIdle()
 	{
-		idle = true;
-		
-		if (thisRoom.contains(player.x / 16, player.y / 16))
-		{
-			idle = false;
-		}
 			
 	}
 	
 	public function MovementChase()
-	{
-	
-	
-		FlxG.log.add("che");
-		var myPos:FlxPoint = new FlxPoint(x / 16, y / 16);
+	{		
+		var myPos:FlxPoint = new FlxPoint(Std.int(x / TILE_SIZE), Std.int( y / TILE_SIZE));
 		
-		if (path == null)
-		{
+		if(path == null)
 			path = dijkstra.ChoosePath(moveMap, player, myPos);
-			//se mueve
-			//borra path
-			FlxG.log.add("path");
-		}
+		
+		//hacerlo smooth
+		x = path[1].x * TILE_SIZE;
+		y = path[1].y * TILE_SIZE;
+	
+		
+		storedPlayPos.x = currentPlayPos.x;
+		storedPlayPos.y = currentPlayPos.y;
+		
+		path = null;
 	}
 
 	
@@ -214,12 +213,21 @@ class Enemy extends FlxSprite
 	
 	override public function update():Void 
 	{
-		MovementIdle();
-		
-		if (TurnManager.getInstance().turnActivate == true && idle == false )
+		//actualiza la posicion del jugador
+		if (thisRoom.contains(Std.int(player.x / TILE_SIZE),Std.int(player.y / TILE_SIZE)))
+		{		
+			if ((player.x % TILE_SIZE) == 0 && (player.y % TILE_SIZE) == 0)
+			{
+				currentPlayPos.x = player.x;
+				currentPlayPos.y = player.y;
+			}
+		}
+		else 
+			MovementIdle();
+		//si la posicion del jugador cambia recalculamos path	
+		if (currentPlayPos.x != storedPlayPos.x || currentPlayPos.y != storedPlayPos.y)
 		{
 			MovementChase();
-			TurnManager.getInstance().StopTurn();
 		}
 		
 		super.update();

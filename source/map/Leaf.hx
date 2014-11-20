@@ -26,7 +26,7 @@ class Leaf
 	public var x:Int;
 	public var width:Int;
 	public var height:Int; 
-	public var MIN_LEAF_SIZE:Int = 6;
+	public var MIN_LEAF_SIZE:Int = 8;
 	
 	
 	public var leftChild:Leaf; // the Leaf's left child Leaf
